@@ -26,7 +26,7 @@
 - ✅ Ready to integrate CloudFlare Firewall
 - ✅ Smart Logging System  
 - ✅ and More
-- ![https://raw.githubusercontent.com/peter-tharwat/dashboard/master/public/screenshot.jpg](https://raw.githubusercontent.com/peter-tharwat/dashboard/master/public/screenshot.jpg)
+
 
 
 ### How to setup

@@ -23,9 +23,8 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(book $book)
+    public function index()
     {
-        $books = book::latest()->paginate(2);
-        return view('front.index' ,compact('books'));
+        return view('admin.index' );
     }
 }

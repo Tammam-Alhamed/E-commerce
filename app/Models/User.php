@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -20,6 +22,25 @@ class User extends Authenticatable
      */
     protected $guarded = [ 
     ];
+
+
+
+    public function order(): HasMany
+    {
+        return $this->hasMany(orders::class);
+    }
+
+    public function item()
+    {
+        return $this->belongsToMany(item::class);
+    }
+
+
+    public function user(): HasMany
+    {
+        return $this->hasMany(user::class);
+    }
+
 
     /**
      * The attributes that should be hidden for arrays.

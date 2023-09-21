@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrdersController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\NotificationsController;
@@ -10,7 +11,8 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\SiteMapController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\shopeController;
 use App\Http\Controllers\RedirectionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FrontController;
@@ -18,6 +20,7 @@ use App\Http\Controllers\TrafficsController;
 use App\Http\Controllers\bookController;
 use App\Http\Controllers\autherController;
 use App\Http\Controllers\genresController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\homeController;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,7 +38,7 @@ Route::prefix('admin')->middleware(['auth','CheckRole:ADMIN','ActiveAccount'])->
     Route::get('/',[AdminController::class,'index'])->name('index');
 
 
-    //Route::get('/profile',[AdminController::class,'upload_image']);
+    Route::get('/profile',[AdminController::class,'upload_image']);
     
     Route::resource('contacts',ContactController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
     Route::resource('users',UserController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
@@ -43,7 +46,10 @@ Route::prefix('admin')->middleware(['auth','CheckRole:ADMIN','ActiveAccount'])->
     Route::resource('book',bookController::class);
     Route::resource('auther',autherController::class);
     Route::resource('genres',genresController::class);
-    Route::resource('categories',CategoryController::class);
+    Route::resource('categorie',CategorieController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
+    Route::resource('shope',shopeController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
+    Route::resource('item',ItemController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
+    Route::resource('order',OrdersController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
     Route::resource('redirections',RedirectionController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
 
     Route::get('traffics',[TrafficsController::class,'index'])->name('traffics.index');

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->bigIncrements('categories_id');
             $table->unsignedBigInteger('categories_shope')->nullable();
-            $table->foreign('categories_shope' ,'categories_shope' )->references('shopes_id')->on('shopes');
+            $table->foreign('categories_shope' ,'categories_shope' )->references('shopes_id')->on('shopes')->onDelete('cascade');
             $table->string('categories_name');
             $table->string('categories_name_ar');
             $table->string('categories_image');

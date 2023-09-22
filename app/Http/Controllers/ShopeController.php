@@ -72,7 +72,7 @@ class ShopeController extends Controller
      * @param  \App\Models\shope  $shope
      * @return \Illuminate\Http\Response
      */
-    public function edit(shope $shope)
+    public function edit($shopes_id)
     {
         $shope = shope::find($shopes_id);
         return view('admin.shope.edit' , compact('shope'));
@@ -87,24 +87,27 @@ class ShopeController extends Controller
      */
     public function update(Request $request, shope $shope)
     {
+        $file = $request->file('shopes_image');
         $shopes_image = $request->shopes_image;
         if(!auth()->user()->has_access_to('update',$shope))abort(403);
-        if(is_null( $shopes_image->getClientOriginalName() ) ){
+        if(is_null( $file ) ){
             $shope->update([
                 'shopes_name' => $request->shopes_name,
                 'shopes_name_ar' => $request->shopes_name_ar,
             ]);
+        }else{
+            $newphoto = time().$shopes_image->getClientOriginalName();
+            $shopes_image->move('../../ecommercecourse-PHP--177/upload/shopes',$newphoto);
+            
+            $shope->update([
+                'shopes_name' => $request->shopes_name,
+                'shopes_name_ar' => $request->shopes_name_ar,
+                'shopes_image' => 'ecommercecourse-PHP--177/upload/shopes'.$newphoto
+            ]);
         }
 
         
-        $newphoto = time().$shopes_image->getClientOriginalName();
-        $shopes_image->move('../../ecommercecourse-PHP--177/upload/shopes',$newphoto);
-        
-        $shope->update([
-            'shopes_name' => $request->shopes_name,
-            'shopes_name_ar' => $request->shopes_name_ar,
-            'shopes_image' => 'ecommercecourse-PHP--177/upload/shopes'.$newphoto
-        ]);
+
         return redirect()->route('admin.shope.index');
     }
 

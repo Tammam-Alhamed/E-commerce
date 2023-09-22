@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigIncrements('items_id');
             $table->unsignedBigInteger('items_cat')->nullable();
             // $table->foreign('items_cat')->references('categories_id ')->on("categories")->onDelete('cascade');
-            $table->foreign('items_cat' ,'items_cat' )->references('categories_id')->on('categories');
+            $table->foreign('items_cat' ,'items_cat' )->references('categories_id')->on('categories')->onDelete('cascade');
             $table->string('items_name')->nullable();
             $table->string('items_name_ar')->nullable();
             $table->string('items_desc')->nullable();

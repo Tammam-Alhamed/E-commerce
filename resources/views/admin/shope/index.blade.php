@@ -56,9 +56,8 @@
 									<span class="fas fa-wrench "></span> تحكم
 								</span>
 							</a>
-							@endif
-							@if(auth()->user()->has_access_to('delete',$shope))
-							<form method="POST" action="{{route('admin.shope.index',$shope)}}" class="d-inline-block">@csrf @method("DELETE")
+							
+							<form method="POST" action="{{route('admin.shope.destroy',$shope->shopes_id)}}" class="d-inline-block">@csrf @method("DELETE")
 								<button class="btn  btn-outline-danger btn-sm font-1 mx-1" onclick="var result = confirm('هل أنت متأكد من عملية الحذف ؟');if(result){}else{event.preventDefault()}">
 									<span class="fas fa-trash "></span> حذف
 								</button>

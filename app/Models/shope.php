@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class shope extends Model
 {
-    protected $primaryKey = 'categories_id';
+    protected $primaryKey = 'shopes_id';
     public $timestamps = false;
-    public $guarded=['categories_id','categories_datetime','categories_datetime'];
+    public $guarded=['shopes_id','shopes_datetime'];
 
     // use HasFactory;
     public function categorie(): HasMany

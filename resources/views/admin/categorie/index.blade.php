@@ -58,7 +58,7 @@
 							</a>
 							@endif
 							@if(auth()->user()->has_access_to('delete',$categorie))
-							<form method="POST" action="{{route('admin.categorie.index',$categorie)}}" class="d-inline-block">@csrf @method("DELETE")
+							<form method="POST" action="{{route('admin.categorie.destroy',$categorie)}}" class="d-inline-block">@csrf @method("DELETE")
 								<button class="btn  btn-outline-danger btn-sm font-1 mx-1" onclick="var result = confirm('هل أنت متأكد من عملية الحذف ؟');if(result){}else{event.preventDefault()}">
 									<span class="fas fa-trash "></span> حذف
 								</button>

@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('favorite', function (Blueprint $table) {
             $table->bigIncrements('favorite_id');
             $table->unsignedBigInteger('favorite_usersid')->nullable();
-            $table->foreign('favorite_usersid' )->references('id')->on('users');
+            $table->foreign('favorite_usersid' )->references('id')->on('users')->onDelete('cascade');
 
             $table->unsignedBigInteger('favorite_itemsid')->nullable();
-            $table->foreign('favorite_itemsid' ,'favorite_itemsid' )->references('items_id')->on('items');
+            $table->foreign('favorite_itemsid' ,'favorite_itemsid' )->references('items_id')->on('items')->onDelete('cascade');
 
         });
     }

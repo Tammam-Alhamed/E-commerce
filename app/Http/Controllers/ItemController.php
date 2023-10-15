@@ -8,11 +8,7 @@ use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         
@@ -20,11 +16,7 @@ class ItemController extends Controller
         return view('admin.item.index' , compact('item'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         $categorie = categorie::all();
@@ -73,23 +65,13 @@ class ItemController extends Controller
         return redirect()->route('admin.item.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\item  $item
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(item $item)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\item  $item
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit( $items_id)
     {
         $categorie = categorie::all();

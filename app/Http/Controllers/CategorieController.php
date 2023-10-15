@@ -8,22 +8,14 @@ use Illuminate\Http\Request;
 
 class CategorieController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $categorie = categorie::all();
         return view('admin.categorie.index' , compact('categorie'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         $shope = shope::all();
@@ -58,23 +50,13 @@ class CategorieController extends Controller
         return redirect()->route('admin.categorie.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\categorie  $categorie
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(categorie $categorie)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\categorie  $categorie
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit( $categories_id)
     {
 

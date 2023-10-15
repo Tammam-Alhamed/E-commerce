@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\SlideController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\NotificationsController;
@@ -10,7 +12,8 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\SiteMapController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\ShopeController;
 use App\Http\Controllers\RedirectionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FrontController;
@@ -18,7 +21,9 @@ use App\Http\Controllers\TrafficsController;
 use App\Http\Controllers\bookController;
 use App\Http\Controllers\autherController;
 use App\Http\Controllers\genresController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\homeController;
+use App\Http\Controllers\PushNotificationController;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -35,7 +40,7 @@ Route::prefix('admin')->middleware(['auth','CheckRole:ADMIN','ActiveAccount'])->
     Route::get('/',[AdminController::class,'index'])->name('index');
 
 
-    //Route::get('/profile',[AdminController::class,'upload_image']);
+    Route::get('/profile',[AdminController::class,'upload_image']);
     
     Route::resource('contacts',ContactController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
     Route::resource('users',UserController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
@@ -43,7 +48,11 @@ Route::prefix('admin')->middleware(['auth','CheckRole:ADMIN','ActiveAccount'])->
     Route::resource('book',bookController::class);
     Route::resource('auther',autherController::class);
     Route::resource('genres',genresController::class);
-    Route::resource('categories',CategoryController::class);
+    Route::resource('categorie',CategorieController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
+    Route::resource('shope',shopeController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
+    Route::resource('item',ItemController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
+    Route::resource('order',OrdersController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
+    Route::resource('slide',SlideController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
     Route::resource('redirections',RedirectionController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
 
     Route::get('traffics',[TrafficsController::class,'index'])->name('traffics.index');
@@ -64,9 +73,9 @@ Route::prefix('admin')->middleware(['auth','CheckRole:ADMIN','ActiveAccount'])->
         Route::put('/update-email',[ProfileController::class,'update_email'])->name('update-email');
     });
     Route::prefix('notifications')->name('notifications.')->group(function () {
-        Route::get('/',[NotificationsController::class,'index'])->name('index');
-        Route::get('/ajax',[NotificationsController::class,'notifications_ajax'])->name('ajax');
-        Route::post('/see',[NotificationsController::class,'notifications_see'])->name('see');
+        Route::get('/',[PushNotificationController::class,'index'])->name('index');
+        Route::get('/ajax',[PushNotificationController::class,'notifications_ajax'])->name('ajax');
+        Route::post('/see',[PushNotificationController::class,'notifications_see'])->name('see');
     });
     Route::prefix('settings')->name('settings.')->group(function () {
         Route::get('/',[SettingController::class,'index'])->name('index');
@@ -96,12 +105,11 @@ Route::post('contact',[FrontController::class,'contact_post'])->name('contact-po
 #############################################
 Route::view('bootstrap','bootstrap');
 #############################################
-//
 
-//like and dislike
-Route::post('/book/like/{id}',[bookController::class,'like'])->name('book.like');
+Route::put('update_order/{id}',[OrdersController::class,'update_order'])->name('update_order');
 
-Route::post('/book/dislike/{id}',[bookController::class,'dislike'])->name('book.dislike');
+####################
 
-//search
-Route::get('/book/search',[bookController::class,'search'])->name('book.search');
+Route::post('send',[PushNotificationController::class, 'bulksend'])->name('bulksend');
+Route::get('all-notifications', [PushNotificationController::class, 'index']);
+Route::get('get-notification-form', [PushNotificationController::class, 'create'])->name('create_noti');

@@ -178,16 +178,7 @@
                             </div> 
                         </div>
                     </a>
-                    <a href="#" class="col-12 px-0">
-                        <div class="col-12 item px-0 d-flex " >
-                            <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal fa-box-check font-3"> </span> 
-                            </div>
-                            <div style="width: calc(100% - 50px)" class="px-2">
-                                الطلبات
-                            </div> 
-                        </div>
-                    </a>
+
                     <a href="#" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
@@ -197,47 +188,78 @@
                                 عمليات الدفع
                             </div> 
                         </div>
-                    </a>
-                    <a href="#" class="col-12 px-0">
+                    </a>--}}
+                    <a href="{{route('admin.slide.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
                                 <span class="fal fa-book font-3"> </span> 
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
-                                مقالات - أخبار
+                                الاعلانات
                             </div> 
                         </div>
-                    </a> --}}
-                    <a href="{{route('admin.auther.index')}}" class="col-12 px-0">
+                    </a> 
+                    <a href="{{route('admin.users.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
                                 <span class="fal fa-users font-3"> </span> 
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
-                                المؤلفون
+                                المستخدمين
                             </div> 
                         </div>
                     </a>
-                    <a href="{{route('admin.genres.index')}}" class="col-12 px-0">
+                    <a href="{{route('admin.shope.index')}}" class="col-12 px-0">
+                        <div class="col-12 item px-0 d-flex " >
+                            <div style="width: 50px" class="px-3 text-center">
+                                <span class="fal  fa-store font-3"> </span> 
+                            </div>
+                            <div style="width: calc(100% - 50px)" class="px-2">
+                                المتاجر
+                            </div> 
+                        </div>
+                    </a>
+                    <a href="{{route('admin.categorie.index')}}" class="col-12 px-0">
+                        <div class="col-12 item px-0 d-flex " >
+                            <div style="width: 50px" class="px-3 text-center">
+                                <span class="fal fa-box-full font-3"> </span> 
+                            </div>
+                            <div style="width: calc(100% - 50px)" class="px-2">
+                                الأقسام
+                            </div> 
+                        </div>
+                    </a>
+                    <a href="{{route('admin.item.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
                                 <span class="fal fa-tag font-3"> </span> 
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
-                                التصنيف
+                                المنتجات
                             </div> 
                         </div>
                     </a>
-                    <a href="{{route('admin.book.index')}}" class="col-12 px-0">
+                    
+                    <a href="{{route('admin.order.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal fa-newspaper font-3"> </span> 
+                                <span class="fal fa-box-check font-3"> </span> 
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
-                                الكتب
+                                الطلبات
                             </div> 
                         </div>
                     </a>
+                    {{-- <a href="{{route('create_noti')}}" class="col-12 px-0">
+                        <div class="col-12 item px-0 d-flex " >
+                            <div style="width: 50px" class="px-3 text-center">
+                                <span class="fal fa-bell font-3"> </span> 
+                            </div>
+                            <div style="width: calc(100% - 50px)" class="px-2">
+                                الاشعارات
+                            </div> 
+                        </div>
+                    </a> --}}
 
                     <a href="{{route('admin.settings.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
@@ -302,6 +324,11 @@
                                 <a href="{{route('admin.notifications.index')}}" class="d-block py-2 px-3 ">
                                     <div class="col-12 align-items-center">
                                       <span class="fal fa-bells"></span>  عرض كل الإشعارات
+                                    </div>
+                                </a>
+                                <a href="{{route('create_noti')}}" class="d-block py-2 px-3 ">
+                                    <div class="col-12 align-items-center">
+                                      <span class="fal fa-bells"></span>  انشاء إشعار
                                     </div>
                                 </a>
                             </div>

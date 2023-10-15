@@ -233,5 +233,49 @@ class Controller extends BaseController
  
         return substr($t,0,230);
     }
+
+    public function fm($topic , $title , $body){
+        
+        $url = 'https://fcm.googleapis.com/fcm/send';
+
+        $fields = array(
+            "to" => '/topics/' . $topic,
+            'priority' => 'high',
+            'content_available' => true,
+    
+            'notification' => array(
+                "body" =>  $body,
+                "title" =>  $title,
+                "click_action" => "FLUTTER_NOTIFICATION_CLICK",
+                "sound" => "default"
+    
+            ),
+            
+              'data' => array(
+                "pageid" => "none",
+                "pagename" => "refreshorderpending"
+            )
+    
+    
+        );
+    
+    
+        $fields = json_encode($fields);
+        $headers = array(
+            'Authorization: key=' . "AAAANuTldds:APA91bGqzFjZQ2QmpLoT7wY3QRhLWZuNpfmiqWenQY5WYLEJzQ2mm87gSPmZtlSgifD0c_Y98oj3cJFNHVjxzRKDub-2sXxP8sY6Ki0ayWt96aqXdIr7sZwdqmyOA5NKUcFzJ1YDeQK1",
+            'Content-Type: application/json'
+        );
+    
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+    
+        $result = curl_exec($ch);
+        return $result;
+        curl_close($ch);
+    }
     
 }

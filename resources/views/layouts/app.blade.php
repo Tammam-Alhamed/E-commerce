@@ -70,9 +70,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" id="navbar">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="Facebook_f_logo_(2021).png.png" alt="" width="30" height="28">  {{ config('app.name', 'Laravel') }}
-                </a>
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -86,10 +84,6 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
-                        <form action="{{route('book.search' )}}" class="d-flex" role="search">
-                            <input class="form-control me-2" name="title" type="search" placeholder="Search by book title" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                          </form>
 
                     
 

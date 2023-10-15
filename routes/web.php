@@ -41,6 +41,7 @@ Route::prefix('admin')->middleware(['auth','CheckRole:ADMIN','ActiveAccount'])->
 
 
     Route::get('/profile',[AdminController::class,'upload_image']);
+    Route::get('/profile',[AdminController::class,'upload_image']);
     
     Route::resource('contacts',ContactController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
     Route::resource('users',UserController::class)->middleware(['CheckRole:ADMIN|EDITOR']);

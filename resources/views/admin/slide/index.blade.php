@@ -54,7 +54,7 @@
 							</a>
 							@endif
 							@if(auth()->user()->has_access_to('delete',$slide))
-							<form method="POST" action="{{route('admin.slide.index',$slide)}}" class="d-inline-block">@csrf @method("DELETE")
+							<form method="POST" action="{{route('admin.slide.destroy',$slide)}}" class="d-inline-block">@csrf @method("DELETE")
 								<button class="btn  btn-outline-danger btn-sm font-1 mx-1" onclick="var result = confirm('هل أنت متأكد من عملية الحذف ؟');if(result){}else{event.preventDefault()}">
 									<span class="fas fa-trash "></span> حذف
 								</button>

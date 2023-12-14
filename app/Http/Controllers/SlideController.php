@@ -28,8 +28,8 @@ class SlideController extends Controller
         ]);
 
         $slides_image = $request->slides_image;
-        $newphoto = time().$slides_image->getClientOriginalName();
-        $slides_image->move('../../Bazar/upload/slides',$newphoto);
+        $newphoto = random_int(min:50 , max:1000000).random_int(min:50 , max:1000000);
+        $slides_image->move('Bazar/slides',$newphoto);
         
         $slide = slide::create([
             'slides_image' => $newphoto
@@ -44,15 +44,24 @@ class SlideController extends Controller
     }
 
 
-    public function edit(slide $slide)
+    public function edit($slide)
     {
-        //
+        $slide = slide::find($slide);
+        return view('admin.slide.edit' , compact('slide'));
     }
 
 
     public function update(Request $request, slide $slide)
     {
-        //
+        $slide_image = $request->slide_image;
+        $newphoto = random_int(min:50 , max:1000000).random_int(min:50 , max:1000000);
+        $slide_image->move('Bazar/slides',$newphoto);
+        
+        $slide->update([
+            'slides_image' => $newphoto
+        ]);
+    
+        return redirect()->route('admin.slide.index');
     }
 
 

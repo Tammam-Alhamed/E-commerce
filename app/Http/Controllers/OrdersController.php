@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+
 use App\Models\cart;
 use App\Models\orders;
 use App\Models\item;
@@ -61,21 +62,12 @@ class OrdersController extends Controller
      * @param  \App\Models\orders  $orders
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request , $cart_orders )
+    public function update(Request $request , $cart_id )
     {
-    //    $requests = $request->items_status;
 
-    //    $items_id = DB::table('ordersdetailsview')
-    //    ->select('items_id')
-    //    ->get();
 
-    //    $order = DB::table('item')
-    //     ->where('items_id', $items_id )
-    //     ->update(['title' => $requests]);
 
-    //     $order->save();
-
-    $item = cart::find($cart_orders);
+    $item = cart::find($cart_id);
     $item->cart_status = $request->input('cart_status');
     $item->update();
 
@@ -83,9 +75,12 @@ class OrdersController extends Controller
 
     $comment = new PushNotification();
     $comment->notification_title = "order";
-    $comment->notification_body = "your item status hase been updated";
-    $comment->notification_body_ar = "تم تحديث حالة المنتج الخاص بك";
-    $comment->notification_body_ru = "статус вашего товара обновлен";
+    $comment->notification_body_en = "your item status has been updated
+".$request->body_en;
+    $comment->notification_body = "تم تحديث حالة المنتج الخاص بك
+".$request->body;
+    $comment->notification_body_ru = "статус вашего товара обновлен
+".$request->body_ru;
     $comment->notification_userid = $item->cart_usersid;
     $comment->save();
         return redirect()->back();
@@ -109,14 +104,17 @@ class OrdersController extends Controller
     $order = orders::find($orderid);
     $order->orders_status = $request->input('orders_status');
     $order->update();
-
     $this->fm("users".$order->orders_usersid , "order" , "your order status has been updated" );
 
+    
     $comment = new PushNotification();
     $comment->notification_title = "order";
-    $comment->notification_body = "your item status has been updated";
-    $comment->notification_body_ar = "تم تحديث حالة المنتج الخاص بك";
-    $comment->notification_body_ru = "статус вашего товара обновлен";
+    $comment->notification_body_en = "your order status has been updated
+    ".$request->body_en;
+    $comment->notification_body = "تم تحديث حالة المنتج الخاص بك
+    ".$request->body;
+    $comment->notification_body_ru = "статус вашего товара обновлен
+    ".$request->body_ru;
     $comment->notification_userid = $order->orders_usersid;
     $comment->save();
 

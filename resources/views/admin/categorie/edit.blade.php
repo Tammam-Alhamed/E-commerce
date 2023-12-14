@@ -62,6 +62,15 @@
                             <input type="file" name="categories_image" class="form-control" accept="ecommercecourse-PHP--177/upload/categories">
                         </div>
                     </div>
+                    
+                        <div class="col-12 col-lg-6 p-2">
+                            <div class="col-12">
+                                الصوره
+                            </div>
+                            <div>
+                                 <img src="{{URL('Bazar/categories/'.$categorie->categories_image)}}" alt="*image" style="width: 450px;"/>
+                            </div>
+                        </div>
 
                 </div>
             </div>

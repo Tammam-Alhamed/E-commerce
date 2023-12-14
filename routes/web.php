@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\searchController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\SlideController;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +23,7 @@ use App\Http\Controllers\bookController;
 use App\Http\Controllers\autherController;
 use App\Http\Controllers\genresController;
 use App\Http\Controllers\ItemController;
-use App\Http\Controllers\homeController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PushNotificationController;
 use Illuminate\Support\Facades\Auth;
 
@@ -114,3 +115,10 @@ Route::put('update_order/{id}',[OrdersController::class,'update_order'])->name('
 Route::post('send',[PushNotificationController::class, 'bulksend'])->name('bulksend');
 Route::get('all-notifications', [PushNotificationController::class, 'index']);
 Route::get('get-notification-form', [PushNotificationController::class, 'create'])->name('create_noti');
+
+######### FOR USERS ###########
+Route::get('index/notificat/{id}',[UserController::class, 'index_notificat'])->name('index_notificat');
+Route::post('send/for_users/{id}',[UserController::class, 'notificat'])->name('notificat_user');
+
+######### FOR SEARCH ###########
+Route::get('search',[searchController::class,'search'])->name('search');

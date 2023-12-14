@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\PushNotification;
 
 class UserController extends Controller
 {
@@ -11,11 +12,7 @@ class UserController extends Controller
     {
         $this->middleware(['CheckRole:ADMIN'])->only(['create']);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
         
@@ -30,22 +27,13 @@ class UserController extends Controller
         
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         return view('admin.users.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
 
@@ -180,6 +168,28 @@ class UserController extends Controller
         if(!auth()->user()->has_access_to('delete',$user))abort(403);
         $user->delete();
         flash()->success('تم حذف المستخدم بنجاح','عملية ناجحة');
+        return redirect()->route('admin.users.index');
+    }
+    
+    
+    public function index_notificat($id){
+
+        $user = user::find($id);
+        return view('admin.users.notificat' , compact('user'));
+    }
+
+    public function notificat(Request $request , $user)
+    {
+
+        $this->fm("users".$user , $request->title , "you have a notification" );
+
+        $comment = new PushNotification();
+        $comment->notification_title = $request->title ;
+        $comment->notification_body_en = $request->body_en;
+        $comment->notification_body = $request->body;
+        $comment->notification_body_ru = $request->body_ru;
+        $comment->notification_userid = $user;
+        $comment->save();
         return redirect()->route('admin.users.index');
     }
 }

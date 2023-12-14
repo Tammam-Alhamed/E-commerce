@@ -21,11 +21,33 @@
 
 		<div class="col-12 py-2 px-2 row">
 			<div class="col-12 col-lg-4 p-2">
-				<form method="GET">
-					<input type="text" name="q" class="form-control" placeholder="بحث ... ">
-				</form>
+				
+					<input type="text" name="id_uni" class="form-control" placeholder="بحث ... ">
+
 			</div>
+	
 		</div>
+		<form action="{{route('search' )}}" method="GET">
+		<div  class="col-12 py-2 px-2 row"> 
+
+				<div class="col-12 col-lg-4 p-2">
+					<select class="form-control" name="state" >
+						<option value selected disabled hidden> الفرز حسب الحاله</option>
+
+						<option  value="0" >في انتظار الموافقه</option>
+						<option  value="1" >يتم تحضير الطلب</option>
+						<option  value="2">جاهز للاستلام من قبل مندوب التوصيل</option>
+						<option  value="3" >تم انجاز الطلب</option>
+
+					</select>
+				</div>
+				<div class="col-12 p-3">
+					<button class="btn btn-success" id="submitEvaluation">فرز</button>
+				</div>
+			
+		</div>
+	</form>
+
 		<div class="col-12 p-3" style="overflow:auto">
 			<div class="col-12 p-0" style="min-width:1100px;">
 				
@@ -53,23 +75,23 @@
                            @endif
                         </td>
 						<td>{{$order->orders_price}}</td>
-                        <td>
-                            @if($order->orders_status == 0)
+
+						@if($order->orders_status == 0) <td style="background-color: rgba(218, 165, 32, 0.623)"> @if($order->orders_status == 0)
                             في انتظار الموافقه
-                            @endif
-                            @if ($order->orders_status == 1)
+                            @endif </td>@endif
+							@if($order->orders_status == 1) <td style="background-color: rgba(31, 86, 206, 0.459)"> @if ($order->orders_status == 1)
                             يتم تحضير الطلب 
-                            @endif
-                            @if ($order->orders_status == 2)
-                            جاهز للاستلام من قبل مندوب التوصيل
-                            @endif
-                            @if ($order->orders_status == 3)
+                            @endif </td>@endif
+							@if($order->orders_status == 2) <td style="background-color: rgba(62, 65, 63, 0.774)"> @if ($order->orders_status == 2)
+                             جاهز للاستلام من قبل مندوب التوصيل 
+                            @endif </td>@endif
+							@if($order->orders_status == 3) <td style="background-color: rgba(45, 180, 86, 0.774)"> @if ($order->orders_status == 3)
                             علي الطريق
-                            @endif
-							@if ($order->orders_status == 4)
+                            @endif </td>@endif
+							@if($order->orders_status == 5) <td style="background-color: rgba(197, 56, 56, 0.527)"> @if ($order->orders_status == 4)
                             تم انجاز الطلب
-                            @endif
-                        </td>
+                            @endif </td>@endif
+
 
                         <td>{{$order->orders_datetime}}</td>
 						

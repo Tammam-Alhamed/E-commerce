@@ -36,8 +36,8 @@ class ShopeController extends Controller
         ]);
 
         $shopes_image = $request->shopes_image;
-        $newphoto = time().$shopes_image->getClientOriginalName();
-        $shopes_image->move('../../ecommercecourse-PHP--177/upload/shopes',$newphoto);
+        $newphoto = random_int(min:50 , max:1000000).random_int(min:50 , max:1000000);
+        $shopes_image->move('Bazar/shopes',$newphoto);
         
         $shope = shope::create([
             'shopes_name' => $request->shopes_name,
@@ -82,8 +82,8 @@ class ShopeController extends Controller
         }else{
 
         
-        $newphoto = time().$shopes_image->getClientOriginalName();
-        $shopes_image->move('../../Bazar/upload/shopes',$newphoto);
+        $newphoto = random_int(min:50 , max:1000000).random_int(min:50 , max:1000000);
+        $shopes_image->move('Bazar/shopes',$newphoto);
         
         $shope->update([
             'shopes_name' => $request->shopes_name,

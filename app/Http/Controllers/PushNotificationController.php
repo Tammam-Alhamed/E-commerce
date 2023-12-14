@@ -16,6 +16,7 @@ class PushNotificationController extends Controller
     }
 
     public function bulksend(Request $req ){
+        // dd(date_default_timezone_get());
         $topic = "users";
         $comment = new PushNotification();
         $comment->notification_title = $req->input('title');

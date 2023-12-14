@@ -37,8 +37,8 @@ class CategorieController extends Controller
         ]);
 
         $categories_image = $request->categories_image;
-        $newphoto = time().$categories_image->getClientOriginalName();
-        $categories_image->move('../../Bazar/upload/categories',$newphoto);
+        $newphoto = random_int(min:50 , max:1000000).random_int(min:50 , max:1000000);
+        $categories_image->move('Bazar/categories',$newphoto);
         
         $categorie = categorie::create([
             'categories_shope' => $request->categories_shope,
@@ -75,8 +75,8 @@ class CategorieController extends Controller
     public function update(Request $request, categorie $categorie)
     {
 
-        $file = $request->file('shopes_image');
-        $categories_image = $request->shopes_image;
+        $file = $request->file('categories_image');
+        $categories_image = $request->categories_image;
         if(!auth()->user()->has_access_to('update',$categorie))abort(403);
         if(is_null( $file ) ){
             $categorie->update([
@@ -88,15 +88,15 @@ class CategorieController extends Controller
         }else{
 
         
-        $newphoto = time().$categories_image->getClientOriginalName();
-        $categories_image->move('../../ecommercecourse-PHP--177/upload/categories',$newphoto);
+        $newphoto = random_int(min:50 , max:1000000).random_int(min:50 , max:1000000);
+        $categories_image->move('Bazar/categories',$newphoto);
         
         $categorie->update([
             'categories_shope' => $request->categories_shope,
             'categories_name' => $request->categories_name,
             'categories_name_ar' => $request->categories_name_ar,
             'categories_name_ru' => $request->categories_name_ru,
-            'categories_image' => 'ecommercecourse-PHP--177/upload/categories'.$newphoto
+            'categories_image' => $newphoto
         ]);
     }
         return redirect()->route('admin.categorie.index');

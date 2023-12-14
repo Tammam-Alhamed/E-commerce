@@ -363,3 +363,25 @@ label.error{
 .fileuploader-item {
     z-index: 0;
 }
+
+.item{
+	margin-bottom: 5px; 
+}
+.item input{
+padding: 5px 10px;
+border: 0;
+border-radius: 4px;
+box-shadow: 0 0 2px #00000094;
+}
+.item button {
+cursor: pointer;
+padding: 5px 8px;
+border: 0;
+border-radius: 5px;
+margin-left: 5px;
+background: #df5454;
+color: #fff;
+}
+.item #add {
+	background: #61af49;
+}

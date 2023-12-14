@@ -49,6 +49,15 @@
                             <input type="file" name="shopes_image" class="form-control"  value="{{$shope->shopes_image}}">
                         </div>
                     </div>
+                    
+                        <div class="col-12 col-lg-6 p-2">
+                            <div class="col-12">
+                                الصوره
+                            </div>
+                            <div>
+                                 <img src="{{URL('Bazar/shopes/'.$shope->shopes_image)}}" alt="*image" style="width: 450px;"/>
+                            </div>
+                        </div>
 
                 </div>
             </div>

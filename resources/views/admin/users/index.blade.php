@@ -60,6 +60,11 @@
 								</button>
 							</form>
 							@endif
+							<a href="{{route('index_notificat',$user->id)}}">
+								<span class="btn  btn-primary btn-sm font-1 mx-1">
+									<span class="fas fa-bell "></span> ارسال اشعار
+								</span>
+							</a>
 						</td>
 					</tr>
 					@endforeach

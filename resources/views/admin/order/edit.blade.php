@@ -18,28 +18,11 @@
                         </div>
                         <div class="col-12 pt-3">
                             <select  class="form-control" name="orders_status" required>
-                                <option selected  >
-                                    @if($order->orders_status == 0)
-                                    في انتظار الموافقه
-                                    @endif
-                                    @if ($order->orders_status == 1)
-                                    يتم تحضير الطلب 
-                                    @endif
-                                    @if ($order->orders_status == 2)
-                                    جاهز للاستلام من قبل مندوب التوصيل
-                                    @endif
-                                    @if ($order->orders_status == 3)
-                                    علي الطريق
-                                    @endif
-                                    @if ($order->orders_status == 4)
-                                    تم انجاز الطلب
-                                    @endif
-                                </option>
-                                <option onclick="submit()" value="0" > في انتظار الموافقه</option>
-                                <option onclick="submit()" value="1" >يتم تحضير الطلب </option>
-                                <option onclick="submit()" value="2" >جاهز للاستلام من قبل مندوب التوصيل </option>
-                                <option onclick="submit()" value="3" >علي الطريق </option>
-                                <option onclick="submit()" value="4" >تم انجاز الطلب </option>
+                                <option @if($order->orders_status == "0") selected @endif value="0" > في انتظار الموافقه</option>
+                                <option @if($order->orders_status == "1") selected @endif value="1" >يتم تحضير الطلب </option>
+                                <option @if($order->orders_status == "2") selected @endif value="2" >جاهز للاستلام من قبل مندوب التوصيل </option>
+                                <option @if($order->orders_status == "3") selected @endif value="3" >علي الطريق </option>
+                                <option @if($order->orders_status == "4") selected @endif value="4" >تم انجاز الطلب </option>
                             </select>
                         </div>
                         <div class="col-12 divider" style="min-height: 2px;"></div>
@@ -54,9 +37,42 @@
                         _________________________________________________
                         <br>
                     </div>
-                    </form>
+                    
+                    <div class="col-12 p-3">
+                        <div class="col-12 col-lg-12 p-0 ">
+                                    <div class="col-12 p-3 row">
+                                    <div class="col-12 col-lg-6 p-2">
+                                        <div class="col-12">
+                                            المضمون عربي
+                                        </div>
+                                        <div class="col-12 pt-3">
+                                            <input type="text" name="body"  maxlength="190" class="form-control" value="{{old('body')}}">
+                                        </div>
+                                    </div>
+                    
+                                    <div class="col-12 col-lg-6 p-2">
+                                        <div class="col-12">
+                                            المضمون اجنبي
+                                        </div>
+                                        <div class="col-12 pt-3">
+                                            <input type="text" name="body_en"  maxlength="190" class="form-control" value="{{old('body_en')}}">
+                                        </div>
+                                    </div>
+                    
+                                    <div class="col-12 col-lg-6 p-2">
+                                        <div class="col-12">
+                                            المضمون روسي
+                                        </div>
+                                        <div class="col-12 pt-3">
+                                            <input type="text" name="body_ru" maxlength="190" class="form-control" value="{{old('body_ru')}}">
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
                 </div>
-
+            </form>
                     {{-- <div class="col-12 col-lg-6 p-2">
                         <div class="col-12">
                             التصنيف
@@ -139,7 +155,7 @@
                                 الصوره
                             </div>
                             <div>
-                                <img src="{{URL('localhost/Bazar/upload/items/'.$order->items_image)}}" alt="*image" style="width: 40px;">
+                                 <img src="{{URL('Bazar/items/'.$order->items_image_main)}}" alt="*image" style="width: 300px;"/>
                             </div>
                         </div>
                         <form id="validate-form" class="row" enctype="multipart/form-data" method="POST" action="{{route('admin.order.update',$order->cart_id)}}" >
@@ -152,30 +168,45 @@
                             </div>
                             <div class="col-12 pt-3">
                                 <select  class="form-control" name="cart_status" required>
-                                    <option selected  >
-                                        @if($order->cart_status == 0)
-                                        في انتظار الموافقه
-                                        @endif
-                                        @if ($order->cart_status == 1)
-                                        يتم تحضير الطلب 
-                                        @endif
-                                        @if ($order->cart_status == 2)
-                                        جاهز للاستلام من قبل مندوب التوصيل
-                                        @endif
-                                        @if ($order->cart_status == 3)
-                                        علي الطريق
-                                        @endif
-                                        @if ($order->cart_status == 4)
-                                        تم انجاز الطلب
-                                        @endif
-                                    </option>
-                                    <option  value="0" > في انتظار الموافقه</option>
-                                    <option  value="1" >يتم تحضير الطلب </option>
-                                    <option  value="2" >جاهز للاستلام من قبل مندوب التوصيل </option>
-                                    <option  value="3" >علي الطريق </option>
-                                    <option  value="4" >تم انجاز الطلب </option>
+                                    <option @if($order->cart_status == "0") selected @endif value="0" > في انتظار الموافقه</option>
+                                    <option @if($order->cart_status == "1") selected @endif value="1" >يتم تحضير الطلب </option>
+                                    <option @if($order->cart_status == "2") selected @endif value="2" >جاهز للاستلام من قبل مندوب التوصيل </option>
+                                    <option @if($order->cart_status == "3") selected @endif value="3" >علي الطريق </option>
+                                    <option @if($order->cart_status == "4") selected @endif value="4" >تم انجاز الطلب </option>
                                 </select>
                             </div>
+                        </div>
+                                            <div class="col-12 p-3">
+                        <div class="col-12 col-lg-12 p-0 ">
+                                    <div class="col-12 p-3 row">
+                                    <div class="col-12 col-lg-6 p-2">
+                                        <div class="col-12">
+                                            المضمون عربي
+                                        </div>
+                                        <div class="col-12 pt-3">
+                                            <input type="text" name="body"  maxlength="190" class="form-control" value="{{old('body')}}">
+                                        </div>
+                                    </div>
+                    
+                                    <div class="col-12 col-lg-6 p-2">
+                                        <div class="col-12">
+                                            المضمون اجنبي
+                                        </div>
+                                        <div class="col-12 pt-3">
+                                            <input type="text" name="body_en"  maxlength="190" class="form-control" value="{{old('body_en')}}">
+                                        </div>
+                                    </div>
+                    
+                                    <div class="col-12 col-lg-6 p-2">
+                                        <div class="col-12">
+                                            المضمون روسي
+                                        </div>
+                                        <div class="col-12 pt-3">
+                                            <input type="text" name="body_ru" maxlength="190" class="form-control" value="{{old('body_ru')}}">
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
                         </div>
                         <div class="col-12 p-3">
                             <button class="btn btn-success" id="submitEvaluation">حفظ</button>
@@ -186,10 +217,9 @@
                             <br>
                             <br>
                         </div>
-                        @endforeach
-
+                       
                     </form>
-
+ @endforeach
 
                 </div>
 

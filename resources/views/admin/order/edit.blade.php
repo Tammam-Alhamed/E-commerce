@@ -104,7 +104,7 @@
                 
                         
                  
-                <div class="col-12 p-3 row">
+                <div class="col-9 p-3 row">
                     @foreach ($orders as $order)
                     <div class="col-12 col-lg-6 p-2">
                         <div class="col-12">
@@ -122,8 +122,6 @@
                                 <input type="text" name="orders_discount" value="{{$order->items_name}}" required maxlength="190" class="form-control" >
                             </div>
                         </div>
-
-
                         <div class="col-12 col-lg-6 p-2">
                             <div class="col-12">
                                 السعر المنتج
@@ -176,12 +174,13 @@
                                 </select>
                             </div>
                         </div>
-                                            <div class="col-12 p-3">
-                        <div class="col-12 col-lg-12 p-0 ">
-                                    <div class="col-12 p-3 row">
+                        
+                        
+                                <div  class="card" style="width: 450px;">
+                                    <div class="col-12 p-3 ">
                                     <div class="col-12 col-lg-6 p-2">
                                         <div class="col-12">
-                                            المضمون عربي
+                                            الاشعار عربي
                                         </div>
                                         <div class="col-12 pt-3">
                                             <input type="text" name="body"  maxlength="190" class="form-control" value="{{old('body')}}">
@@ -190,7 +189,7 @@
                     
                                     <div class="col-12 col-lg-6 p-2">
                                         <div class="col-12">
-                                            المضمون اجنبي
+                                            الاشعار اجنبي
                                         </div>
                                         <div class="col-12 pt-3">
                                             <input type="text" name="body_en"  maxlength="190" class="form-control" value="{{old('body_en')}}">
@@ -199,7 +198,7 @@
                     
                                     <div class="col-12 col-lg-6 p-2">
                                         <div class="col-12">
-                                            المضمون روسي
+                                            الاشعار روسي
                                         </div>
                                         <div class="col-12 pt-3">
                                             <input type="text" name="body_ru" maxlength="190" class="form-control" value="{{old('body_ru')}}">
@@ -207,7 +206,8 @@
                                     </div>
                                     </div>
                                 </div>
-                        </div>
+                                
+                        
                         <div class="col-12 p-3">
                             <button class="btn btn-success" id="submitEvaluation">حفظ</button>
                         </div>
@@ -220,7 +220,16 @@
                        
                     </form>
  @endforeach
-
+ <div class="col-12 col-lg-6 p-2">
+    <div class="col-12">
+        تفاصيل المستخدم
+    </div>
+    <div class="col-12 pt-3">
+        <input type="text" name="countitems" value="{{$users->name}}" required maxlength="190" class="form-control" >
+        <input type="text" name="countitems" value="{{$users->email}}" required maxlength="190" class="form-control" >
+        <input type="text" name="countitems" value="{{$users->phone}}" required maxlength="190" class="form-control" >
+    </div>
+</div>
                 </div>
 
             </div>

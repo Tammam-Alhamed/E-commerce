@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 
 
 use App\Models\cart;
-use App\Models\orders;
 use App\Models\item;
-use App\Models\ordersdetailsview;
+use App\Models\User;
+use App\Models\orders;
 use App\Models\ordersview;
-use App\Models\PushNotification;
 use Illuminate\Http\Request;
+use App\Models\PushNotification;
+use App\Models\ordersdetailsview;
 use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
@@ -50,9 +51,14 @@ class OrdersController extends Controller
                     ->where('cart_orders'  , $cart_orders)
                     ->get();
 
+                
+
+
     $order = orders::find($cart_orders );
 
-        return view('admin.order.edit' , compact('orders' , 'order') );    
+    $users = User::find($order->orders_usersid);
+
+        return view('admin.order.edit' , compact('orders' , 'order' , 'users' ) );    
     }
 
     /**

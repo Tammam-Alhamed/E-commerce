@@ -119,7 +119,7 @@
             </div>
         <div class="col-12 px-0 py-5 text-center justify-content-center align-items-center ">
             <a href="{{route('admin.profile.edit')}}">
-            <img src="{{auth()->user()->getUserAvatar()}}" style="width: 55px;height: 55px;color: #fff;border-radius: 50%" class="d-inline-block">
+            <img src="{{URL('images/default/'.auth()->user()->avatar)}}"  style="width: 55px;height: 55px;color: #fff;border-radius: 50%" class="d-inline-block">
                 </a>
                 <div class="col-12 px-0 mt-2" style="color: #fff">
                     مرحباً {{auth()->user()->name}}
@@ -178,19 +178,20 @@
                                 التقييمات
                             </div> 
                         </div>
-                    </a>
+                    </a>--}}
 
 
-                    <a href="#" class="col-12 px-0">
+                    <a href="{{route('admin.price.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
                                 <span class="fal fa-sack-dollar font-3"> </span> 
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
-                                عمليات الدفع
+                                سعر الصرف
                             </div> 
                         </div>
-                    </a>--}}
+                    </a>
+
                     <a href="{{route('admin.slide.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
@@ -360,7 +361,7 @@
                     </div>
                     <div class="col-12 px-0 d-flex justify-content-center align-items-center  dropdown"  style="width: 60px;height: 60px;" >
                         <div style="width: 60px;height: 60px;" data-bs-toggle="dropdown" aria-expanded="false" class="d-flex justify-content-center align-items-center cursor-pointer">
-                            <img src="{{auth()->user()->getUserAvatar()}}" style="padding: 10px;border-radius: 50%;width: 60px;height: 60px;">
+                            <img src="{{URL('images/default/'.auth()->user()->avatar)}}" style="padding: 10px;border-radius: 50%;width: 60px;height: 60px;">
                         </div>
                         <ul class="dropdown-menu shadow border-0" aria-labelledby="dropdownMenuButton1">
                                 <li><a class="dropdown-item font-1" href="/" target="_blank"><span class="fal fa-desktop font-1"></span> عرض الموقع</a></li>

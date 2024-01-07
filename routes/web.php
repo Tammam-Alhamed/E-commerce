@@ -1,13 +1,12 @@
 <?php
 
+use App\Http\Controllers\priceController;
 use App\Http\Controllers\searchController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\SlideController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\HelperController;
-use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\SiteMapController;
@@ -21,7 +20,6 @@ use App\Http\Controllers\FrontController;
 use App\Http\Controllers\TrafficsController;
 use App\Http\Controllers\bookController;
 use App\Http\Controllers\autherController;
-use App\Http\Controllers\genresController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PushNotificationController;
@@ -49,7 +47,7 @@ Route::prefix('admin')->middleware(['auth','CheckRole:ADMIN','ActiveAccount'])->
     Route::resource('articles',ArticleController::class);
     Route::resource('book',bookController::class);
     Route::resource('auther',autherController::class);
-    Route::resource('genres',genresController::class);
+    Route::resource('price',PriceController::class);
     Route::resource('categorie',CategorieController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
     Route::resource('shope',shopeController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
     Route::resource('item',ItemController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
@@ -122,3 +120,4 @@ Route::post('send/for_users/{id}',[UserController::class, 'notificat'])->name('n
 
 ######### FOR SEARCH ###########
 Route::get('search',[searchController::class,'search'])->name('search');
+Route::get('search/item',[searchController::class,'searchItem'])->name('searchItem');

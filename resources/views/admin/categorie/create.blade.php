@@ -52,6 +52,17 @@
                             <input type="text" name="categories_name_ru" required maxlength="190" class="form-control" value="{{old('categories_name_ar')}}">
                         </div>
                     </div>
+                    <div class="col-12 col-lg-6 p-2">
+                        <div class="col-12">
+                            قريبا
+                        </div>
+                        <div class="col-12 pt-3">
+                            <select class="form-control" name="categories_soon" required>
+                                <option selected value="0"> لا</option>
+                                <option value="1">نعم</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="col-12 p-2">
                         <div class="col-12">
                             الصورة 

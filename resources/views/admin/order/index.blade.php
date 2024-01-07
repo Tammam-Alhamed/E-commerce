@@ -74,7 +74,7 @@
                            الدفع عند التوصيل
                            @endif
                         </td>
-						<td>{{$order->orders_price}}</td>
+						<td>{{$order->orders_totalprice_d}}</td>
 
 						@if($order->orders_status == 0) <td style="background-color: rgba(218, 165, 32, 0.623)"> @if($order->orders_status == 0)
                             في انتظار الموافقه

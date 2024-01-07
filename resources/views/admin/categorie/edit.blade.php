@@ -54,6 +54,18 @@
                             <input type="text" name="categories_name_ru"  maxlength="190" class="form-control" value="{{$categorie->categories_name_ru}}">
                         </div>
                     </div>
+                    <div class="col-12 col-lg-6 p-2">
+                        <div class="col-12">
+                            قريبا
+                        </div>
+                        <div class="col-12 pt-3">
+                            <select class="form-control" name="categories_soon" >
+                                <option @if($categorie->categories_soon == "0") selected @endif value="0" > لا</option>
+                                <option @if($categorie->categories_soon == "1") selected @endif value="1" >نعم</option>
+                            </select>
+                        </div>
+
+                    </div>
                     <div class="col-12 p-2">
                         <div class="col-12">
                             الصورة 

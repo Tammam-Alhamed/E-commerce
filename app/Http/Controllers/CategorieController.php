@@ -45,6 +45,7 @@ class CategorieController extends Controller
             'categories_name' => $request->categories_name,
             'categories_name_ar' => $request->categories_name_ar,
             'categories_name_ru' => $request->categories_name_ru,
+            'categories_soon' => $request->categories_soon,
             'categories_image' => $newphoto
         ]);
         return redirect()->route('admin.categorie.index');
@@ -84,6 +85,7 @@ class CategorieController extends Controller
                 'categories_name' => $request->categories_name,
                 'categories_name_ar' => $request->categories_name_ar,
                 'categories_name_ru' => $request->categories_name_ru,
+                'categories_soon' => $request->categories_soon,
             ]);
         }else{
 
@@ -96,6 +98,7 @@ class CategorieController extends Controller
             'categories_name' => $request->categories_name,
             'categories_name_ar' => $request->categories_name_ar,
             'categories_name_ru' => $request->categories_name_ru,
+            'categories_soon' => $request->categories_soon,
             'categories_image' => $newphoto
         ]);
     }

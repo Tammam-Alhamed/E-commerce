@@ -132,14 +132,14 @@
                             </div>
     
                         </div>
-                        <div class="col-12 col-lg-6 p-2">
+                        {{-- <div class="col-12 col-lg-6 p-2">
                             <div class="col-12">
                                 السعر
                             </div>
                             <div class="col-12 pt-3">
                                 <input type="text" name="items_price" value="{{$item->items_price}}" required maxlength="190" class="form-control" >
                             </div>
-                        </div>
+                        </div> --}}
                         {{-- <div class="col-12 col-lg-6 p-2">
                             <div class="col-12">
                                 الكمية
@@ -175,6 +175,19 @@
                         </div>
                         
                     </div>
+
+                    <div class="col-12 p-2">
+                        <div class="col-12">
+                       الصور المتعدده
+                        </div>
+                        <div class="col-12 pt-3" >
+                            <input type="file" class="form-control" name="items_image[]" placeholder="address" multiple>
+                            <label>{{$item->items_image}}</label>
+                        </div>
+                        
+                    </div>
+
+
                     <div class="col-12 col-lg-6 p-2">
                         <div class="col-12">
                             الوصف (AR) 

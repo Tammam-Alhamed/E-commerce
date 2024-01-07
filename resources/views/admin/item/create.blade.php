@@ -132,14 +132,14 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6 p-2">
+                        {{-- <div class="col-12 col-lg-6 p-2">
                             <div class="col-12">
                                 السعر
                             </div>
                             <div class="col-12 pt-3">
                                 <input type="text" name="items_price" required maxlength="190" class="form-control">
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="col-12 col-lg-6 p-2">
                             <div class="col-12">
@@ -172,9 +172,7 @@
                                 الصور الداخليه
                             </div>
                             <div class="col-12 pt-3">
-                                <input type="file" class="form-control" name="items_image[]" placeholder="address"
-                                    multiple>
-
+                                <input type="file" class="form-control" name="items_image[]" placeholder="address" multiple>
                             </div>
 
                         </div>

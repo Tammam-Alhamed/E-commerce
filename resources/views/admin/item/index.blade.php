@@ -21,11 +21,12 @@
 
 		<div class="col-12 py-2 px-2 row">
 			<div class="col-12 col-lg-4 p-2">
-				<form method="GET">
-					<input type="text" name="q" class="form-control" placeholder="بحث ... ">
+				<form method="GET" action="{{route('searchItem')}}">
+					<input type="text" name="name" class="form-control" placeholder="بحث ... ">
 				</form>
 			</div>
 		</div>
+
 		<div class="col-12 p-3" style="overflow:auto">
 			<div class="col-12 p-0" style="min-width:1100px;">
 				
@@ -47,7 +48,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					@foreach($item as $item)
+					@foreach($items as $item)
 					<tr>
 						<td>{{$item->items_id}}</td>
 						<td>{{$item->categorie->categories_name}}</td>
@@ -83,6 +84,7 @@
 					@endforeach
 				</tbody>
 			</table>
+			{{ $items->links() }}
 			</div>
 		</div>
 		<div class="col-12 p-3">

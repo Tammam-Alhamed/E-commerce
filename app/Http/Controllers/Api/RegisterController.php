@@ -16,7 +16,6 @@ class RegisterController extends BaseController
     {
        $validator = Validator::make($request->all(),[
         'name' => 'requierd',
-        'email' => 'requierd|email',
         'password' => 'requierd',
         'phone' => 'requierd',
        ]); 
@@ -41,7 +40,7 @@ class RegisterController extends BaseController
     public function login(Request $request)
     {
 
-        if (Auth::attempt(['email' => $request->email , 'password' => $request->password])) {
+        if (Auth::attempt(['phone' => $request->phone , 'password' => $request->password])) {
             $user = Auth::user();
             $success['token'] = $user->createToken('Za3Tr')->accessToken;
             $success['name'] = $user->name ;

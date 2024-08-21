@@ -1,29 +1,32 @@
 <?php
 
-use App\Http\Controllers\priceController;
-use App\Http\Controllers\searchController;
-use App\Http\Controllers\OrdersController;
-use App\Http\Controllers\SlideController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\HelperController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\SiteMapController;
-use App\Http\Controllers\SettingController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\CategorieController;
-use App\Http\Controllers\ShopeController;
-use App\Http\Controllers\RedirectionController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\FrontController;
-use App\Http\Controllers\TrafficsController;
-use App\Http\Controllers\bookController;
-use App\Http\Controllers\autherController;
-use App\Http\Controllers\ItemController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PushNotificationController;
+use App\Http\Controllers\CouponController;
+use App\Models\User;
+use App\Models\orders;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\bookController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\FrontController;
+use App\Http\Controllers\priceController;
+use App\Http\Controllers\ShopeController;
+use App\Http\Controllers\SlideController;
+use App\Http\Controllers\autherController;
+use App\Http\Controllers\HelperController;
+use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\searchController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SiteMapController;
+use App\Http\Controllers\TrafficsController;
+use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\RedirectionController;
+use App\Http\Controllers\PushNotificationController;
 
 
 
@@ -53,6 +56,7 @@ Route::prefix('admin')->middleware(['auth','CheckRole:ADMIN','ActiveAccount'])->
     Route::resource('item',ItemController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
     Route::resource('order',OrdersController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
     Route::resource('slide',SlideController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
+    Route::resource('coupon',CouponController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
     Route::resource('redirections',RedirectionController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
 
     Route::get('traffics',[TrafficsController::class,'index'])->name('traffics.index');
@@ -102,9 +106,6 @@ Route::get('blog',[FrontController::class,'blog'])->name('blog');
 Route::post('contact',[FrontController::class,'contact_post'])->name('contact-post');
 
 
-#############################################
-Route::view('bootstrap','bootstrap');
-#############################################
 
 Route::put('update_order/{id}',[OrdersController::class,'update_order'])->name('update_order');
 
@@ -113,6 +114,7 @@ Route::put('update_order/{id}',[OrdersController::class,'update_order'])->name('
 Route::post('send',[PushNotificationController::class, 'bulksend'])->name('bulksend');
 Route::get('all-notifications', [PushNotificationController::class, 'index']);
 Route::get('get-notification-form', [PushNotificationController::class, 'create'])->name('create_noti');
+Route::DELETE('delete-notification/{id}', [PushNotificationController::class, 'destroy'])->name('destroy_noti');
 
 ######### FOR USERS ###########
 Route::get('index/notificat/{id}',[UserController::class, 'index_notificat'])->name('index_notificat');

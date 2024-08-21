@@ -35,7 +35,9 @@
 					<tr>
 						<th>#</th>
 						<th>الاسم</th>
-						<th>البريد</th>
+						<th>الهاتف</th>
+						<th>الكود</th>
+						<th>تم التحقق</th>
 						<th>تحكم</th>
 					</tr>
 				</thead>
@@ -44,7 +46,14 @@
 					<tr>
 						<td>{{$user->id}}</td>
 						<td>{{$user->name}}</td>
-						<td>{{$user->email}}</td>
+						<td>{{$user->phone}}</td>
+						<td>{{$user->users_verfiycode}}</td>
+						@if($user->users_approve == 1) <td style="background-color: rgba(68, 197, 56, 0.527)"> @if ($user->users_approve == 1)
+							نعم
+						@endif </td>@endif
+						@if($user->users_approve == 0) <td style="background-color: rgba(207, 68, 43, 0.527)"> @if ($user->users_approve == 0)
+							لا
+						@endif </td>@endif
 						<td>
 							@if(auth()->user()->has_access_to('update',$user))
 							<a href="{{route('admin.users.edit',$user)}}">

@@ -116,19 +116,19 @@ class UserController extends Controller
         $request->validate([
             'name'=>"nullable|max:190",
             'phone'=>"nullable|max:190",
-            'power'=>"required|in:ADMIN,EDITOR,CONTRIBUTOR",
+            'power'=>"required|in:ADMIN,EDITOR,CONTRIBUTOR,USER",
             'bio'=>"nullable|max:5000",
             'blocked'=>"required|in:0,1",
-            'email'=>"required|unique:users,email,".$user->id,
-            'password'=>"nullable|min:8|max:190"
+            // 'email'=>"required|unique:users,email,".$user->id,
+            // 'password'=>"nullable|min:8|max:190"
         ]);
         $user->update([
             "name"=>$request->name,
             "phone"=>$request->phone,
             "power"=>$request->power,
-            "bio"=>$request->bio,
+            // "bio"=>$request->bio,
             "blocked"=>$request->blocked,
-            "email"=>$request->email,
+            // "email"=>$request->email,
             
         ]);
         if($request->password!=null){

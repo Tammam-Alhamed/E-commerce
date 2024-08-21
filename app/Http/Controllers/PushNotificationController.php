@@ -36,13 +36,14 @@ class PushNotificationController extends Controller
             "body" =>  $req->input('body'),
             "title" =>  $req->input('title'),
             "click_action" => "FLUTTER_NOTIFICATION_CLICK",
-            "sound" => "default"
-
+            "sound" => "default",
+            "icon" => "ic_stat_logoapp"
         ),
         
           'data' => array(
             "pageid" => "none",
-            "pagename" => "refreshorderpending"
+            "pagename" => "refreshorderpending",
+            "unread" => "1"
         )
 
 
@@ -81,8 +82,11 @@ class PushNotificationController extends Controller
      * @param  \App\Models\PushNotification  $pushNotification
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PushNotification $pushNotification)
+    public function destroy( $pushNotification)
     {
-        //
+        $pushNotification = PushNotification::find($pushNotification);
+        $pushNotification->delete();
+        flash()->success('تم حذف الاشعار بنجاح','عملية ناجحة');
+        return redirect()->route('admin.notifications.index');
     }
 }

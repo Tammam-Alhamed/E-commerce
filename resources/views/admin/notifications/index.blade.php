@@ -39,9 +39,16 @@
 						<td>{{$push_notification->notification_body_en}}</td>
 						<td>{{$push_notification->notification_body}}</td>
 						<td>{{$push_notification->notification_body_ru}}</td>
+						<td style="width: 270px;">
 
-						
-
+							@if(auth()->user()->has_access_to('delete',$push_notification))
+							<form method="POST" action="{{route('destroy_noti',$push_notification->notification_id)}}" class="d-inline-block">@csrf @method("DELETE")
+								<button class="btn  btn-outline-danger btn-sm font-1 mx-1" onclick="var result = confirm('هل أنت متأكد من عملية الحذف ؟');if(result){}else{event.preventDefault()}">
+									<span class="fas fa-trash "></span> حذف
+								</button>
+							</form>
+							@endif
+						</td>
 
 					</tr>
 					@endforeach

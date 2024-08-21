@@ -42,9 +42,9 @@
 					@foreach($slide as $slide)
 					<tr>
 						<td>@if ($slide->slides_id == 1)
-							عروض
+							 الخصومات
 						@elseif($slide->slides_id == 2)
-							الخصومات
+						عروض
 							@else
 							الجديده
 						@endif

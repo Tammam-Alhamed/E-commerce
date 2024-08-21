@@ -25,14 +25,14 @@
 					<input type="text" name="name" required minlength="3"  maxlength="190" class="form-control" value="{{$user->name}}" >
 				</div>
 			</div>
-			<div class="col-12 p-2">
+			{{-- <div class="col-12 p-2">
 				<div class="col-12">
 					البريد
 				</div>
 				<div class="col-12 pt-3">
 					<input type="email" name="email"  class="form-control"  value="{{$user->email}}" >
 				</div>
-			</div>
+			</div> --}}
 			<div class="col-12 p-2">
 				<div class="col-12">
 					كلمة المرور
@@ -42,7 +42,7 @@
 				</div>
 			</div>
 			
-			<div class="col-12 p-2">
+			{{-- <div class="col-12 p-2">
 				<div class="col-12">
 					الصورة الشخصية
 				</div>
@@ -52,7 +52,7 @@
 				<div class="col-12 p-0">
 					<img src="{{$user->getUserAvatar()}}" style="width:100px;margin-top:20px">
 				</div>
-			</div>
+			</div> --}}
 
 			<div class="col-12 p-2">
 				<div class="col-12">
@@ -68,21 +68,22 @@
 				</div>
 				<div class="col-12 pt-3">
 					<select class="form-control" name="power">
-						<option selected hidden disabled >إختر الصلاحية</option>
+						{{-- <option selected hidden disabled >إختر الصلاحية</option> --}}
+						<option @if($user->power=="USER") selected @endif value="USER">مستخدم</option>
 						<option @if($user->power=="ADMIN") selected @endif value="ADMIN">مسؤول</option>
 						<option @if($user->power=="EDITOR") selected @endif value="EDITOR">محرر</option>
 						<option @if($user->power=="CONTRIBUTOR") selected @endif value="CONTRIBUTOR">مساهم</option>
 					</select>
 				</div>
 			</div>
-			<div class="col-12 p-2">
+			{{-- <div class="col-12 p-2">
 				<div class="col-12">
 					نبذة
 				</div>
 				<div class="col-12 pt-3">
 					<textarea  name="bio" maxlength="5000" class="form-control" style="min-height:150px">{{$user->bio}}</textarea>
 				</div>
-			</div>
+			</div> --}}
 			<div class="col-12 p-2">
 				<div class="col-12">
 					محظور

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\categorie;
 use Illuminate\Http\Request;
 use App\Models\orders;
 use App\Models\User;
@@ -25,8 +26,11 @@ public function searchItem(Request $request ){
         $items = item::where(
                'items_name', 'LIKE' ,'%'.$request->name.'%' ,)->orWhere(
                'items_name_ar', 'LIKE' ,'%'.$request->name.'%',)->orWhere(
-               'items_name_ru', 'LIKE' ,'%'.$request->name.'%',
-                )->Paginate(100);
+               'items_name_ru', 'LIKE' ,'%'.$request->name.'%',)->orWhereHas('categorie', function($q) use ($request) {
+                return $q->where('categories_name', 'LIKE', '%' . $request->name . '%');
+            })->Paginate(100);
+
+
         return view('admin.item.index' ,compact('items'));
 }
 }

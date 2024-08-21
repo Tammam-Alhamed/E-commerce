@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class favorite extends Model
 {
-    use HasFactory;
+    public $table = "favorite";
+    protected $primaryKey = 'favorite_id';
+    public $timestamps = false;
+    public $guarded=['favorite_id'];
 }

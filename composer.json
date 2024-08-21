@@ -7,7 +7,7 @@
     "require": {
         "php": "^8.0.2",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/guzzle": "^7.5",
         "intervention/image": "^2.7",
         "laravel/framework": "^9.2",
         "laravel/passport": "^11.8",
@@ -17,6 +17,7 @@
         "league/flysystem-aws-s3-v3": "^3.0",
         "livewire/livewire": "^2.7",
         "nesbot/carbon": "^2.54",
+        "predis/predis": "*",
         "spatie/laravel-flash": "^1.9",
         "stevebauman/location": "^6.2"
     },

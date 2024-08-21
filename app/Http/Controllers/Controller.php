@@ -247,13 +247,15 @@ class Controller extends BaseController
                 "body" =>  $body,
                 "title" =>  $title,
                 "click_action" => "FLUTTER_NOTIFICATION_CLICK",
-                "sound" => "default"
-    
+                "sound" => "default",
+                "icon" => "ic_stat_logoapp"
             ),
+            
             
               'data' => array(
                 "pageid" => "none",
-                "pagename" => "refreshorderpending"
+                "pagename" => "refreshorderpending",
+                "unread" => "1"
             )
     
     

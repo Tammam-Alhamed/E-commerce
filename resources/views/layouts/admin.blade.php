@@ -15,7 +15,6 @@
     <link rel="stylesheet" type="text/css" href="{{asset('/css/jquery.fileuploader.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('/css/jquery.fileuploader-theme-dragdrop.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('/css/main.css')}}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     @php
     $page_title="لوحة التحكم";
     @endphp
@@ -138,6 +137,16 @@
                             </div> 
                         </div>
                     </a>
+                    <a href="{{route('admin.coupon.index')}}" class="col-12 px-0">
+                        <div class="col-12 item px-0 d-flex " >
+                            <div style="width: 50px" class="px-3 text-center">
+                                <span class="fal fa-credit-card font-3"> </span> 
+                            </div>
+                            <div style="width: calc(100% - 50px)" class="px-2">
+                                الكوبونات
+                            </div> 
+                        </div>
+                    </a>
 
                {{--     <a href="{{route('genres.index')}}admin.genres.index" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
@@ -254,7 +263,6 @@
                         </div>
                     </a>
                     <a href="{{route('admin.item.index')}}" class="col-12 px-0">
-                    <a href="{{route('admin.item.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
                                 <span class="fal fa-tag font-3"> </span> 
@@ -264,12 +272,22 @@
                             </div> 
                         </div>
                     </a>
-                    
+                    @php
+                        $orders = DB::table('orders')->select('orders_read')->where('orders_read' ,'=', '0' )->count();
+                        // $order = DB::table('orders')->select('orders_read')->where('orders_read' ,'=', '0' )->get();
+                        // $i = 0;
+                        // while ($i < 6) {
+                          
+                        //   $i++;
+                        // }   
+
+                    @endphp
                     <a href="{{route('admin.order.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
                                 <span class="fal fa-box-check font-3"> </span> 
                             </div>
+                            <div style="color: red">{{$orders}}</div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                 الطلبات
                             </div> 
@@ -410,6 +428,19 @@
               $('.select2-select').select2();
           });
     </script>
+    {{-- data picker start --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#datepicker').datepicker();
+        });
+    </script>
+    {{-- data picker end --}}
     @livewireScripts
     @include('layouts.scripts')
     @yield('scripts')

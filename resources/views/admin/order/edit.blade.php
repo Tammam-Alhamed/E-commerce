@@ -1,41 +1,194 @@
 @extends('layouts.admin')
 @section('content')
-<div class="col-8 p-3">
-    <div class="col-12 col-lg-12 p-0 ">
+<div class="container mt-5 mb-5">
 
-            <div class="col-12 col-lg-8 p-0 main-box">
-                <div class="col-12 px-0">
-                    <div class="col-12 px-3 py-3">
-                        <span class="fas fa-info-circle"></span> اضافه منتج
+    <div class="row d-flex justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card">
+
+
+                    <div class="text-left logo p-2 px-5">
+
+                        <img src="https://i.imgur.com/2zDU056.png" width="50">
+                        
+
                     </div>
-                    <div class="col-12 divider" style="min-height: 2px;"></div>
-                    <form id="validate-form" class="row" enctype="multipart/form-data" method="POST" action="{{route('update_order',$order->orders_id)}}" >
+
+                    <div class="invoice p-5">
+
+                        <h5>
+                            حالة الطلب :@if($order->orders_status == "0") في انتظار الموفقه @endif
+                                        @if($order->orders_status == "1") يتم تحضير الطلب @endif
+                                        @if($order->orders_status == "2") جاهز للاستلام من قبل مندوب التوصيل @endif
+                                        @if($order->orders_status == "3") علي الطريق @endif
+                                        @if($order->orders_status == "4") تم انجاز الطلب @endif
+                             !</h5>
+
+                        <span class="font-weight-bold d-block mt-4">اسم المستخدم : {{$users->name}} </span>
+                        <span>بريد المستخدم : {{$users->email}}</span>
+                        <br>
+                        <span>هاتف المستخدم : {{$users->phone}}</span>
+
+                        <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
+
+                            <table class="table table-borderless">
+                                
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="py-2">
+
+                                                <span class="d-block text-muted">تاريخ الطلب</span>
+                                                <span>{{$orders_view[0]->orders_datetime}}</span>
+                                                
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="py-2">
+
+                                                <span class="d-block text-muted">رقم الطلب</span>
+                                                <span>{{$orders_view[0]->orders_id}}</span>
+                                                
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="py-2">
+
+                                                <span class="d-block text-muted">Payment</span>
+                                            <span><img src="https://img.icons8.com/color/48/000000/mastercard.png" width="20" /></span>
+                                                
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                            <div class="product border-bottom table-responsive">
+
+                                <table class="table table-borderless">
+                                    @foreach ($orders as $order)
+                                <tbody>
+                                    <tr>
+                                    <td width="20%">
+                                        <img src="{{URL('Bazar/items/'.$order->items_image_main)}}" width="90"/>
+                                    </td>
+                                    <td width="60%">
+                                        <span class="font-weight-bold">{{$order->items_name}}</span>
+                                        <div class="product-qty">
+                                            <span class="d-block">الكميه:{{$order->countitems}}</span>
+                                            <span>اللون:  {{$order->cart_colors}}</span>
+                                            <br>
+                                            <span>المقاس:  {{$order->cart_sizes}}</span>
+                                            
+                                        </div>
+                                    </td>
+                                    <td width="20%">
+                                        <div class="text-right">
+                                            <span class="font-weight-bold">{{$order->itemsprice_d}} ل.س</span>
+                                        </div>
+                                        <br>
+                                        <a href="{{route('admin.order.show',$order->cart_id)}}">
+                                            <span class="btn  btn-outline-success btn-sm font-1 mx-1">
+                                                <span class="fas fa-wrench "></span> تحكم
+                                            </span>
+                                        </a>
+                                    </td>
+                                    
+                                    </tr>
+                                </tbody> 
+                                @endforeach
+                                    
+                                </table>
+                                
+
+
+                            </div>
+
+
+
+                            <div class="row d-flex justify-content-end">
+
+                                <div class="col-md-5">
+
+                                    <table class="table table-borderless">
+
+                                        <tbody class="totals">
+
+                                            <tr>
+                                                <td>
+                                                    <div class="text-left">
+
+                                                        <span class="text-muted"> سعر المنتجات </span>
+                                                        
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="text-right">
+                                                        <span>{{$orders_view[0]->orders_price_d}}</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>
+                                                    <div class="text-left">
+
+                                                        <span class="text-muted">رقم الكوبون</span>
+                                                        
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="text-right">
+                                                        <span>{{$orders_view[0]->orders_coupon}}</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                             <tr class="border-top border-bottom">
+                                                <td>
+                                                    <div class="text-left">
+
+                                                        <span class="font-weight-bold">السعر الكلي</span>
+                                                        
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="text-right">
+                                                        <span>{{$orders_view[0]->orders_totalprice_d}}</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                        
+                                    </table>
+                                    
+                                </div>
+                                
+
+
+                            </div>
+                    </div>
+
+                    <form id="validate-form" class="row" enctype="multipart/form-data" method="POST" action="{{route('update_order',$orders_view[0]->orders_id)}}" >
                         @csrf
                         @method('PUT')
-                    <div class="col-12 col-lg-6 p-2 ">
+                    <div class="col-12 p-3 ">
                         <div class="col-12">
                             حاله الطلب
                         </div>
                         <div class="col-12 pt-3">
                             <select  class="form-control" name="orders_status" required>
-                                <option @if($order->orders_status == "0") selected @endif value="0" > في انتظار الموافقه</option>
-                                <option @if($order->orders_status == "1") selected @endif value="1" >يتم تحضير الطلب </option>
-                                <option @if($order->orders_status == "2") selected @endif value="2" >جاهز للاستلام من قبل مندوب التوصيل </option>
-                                <option @if($order->orders_status == "3") selected @endif value="3" >علي الطريق </option>
-                                <option @if($order->orders_status == "4") selected @endif value="4" >تم انجاز الطلب </option>
+                                <option @if($orders_view[0]->orders_status == "0") selected @endif value="0" > في انتظار الموافقه</option>
+                                <option @if($orders_view[0]->orders_status == "1") selected @endif value="1" >يتم تحضير الطلب </option>
+                                <option @if($orders_view[0]->orders_status == "2") selected @endif value="2" >طلبك جاهز للاستلام-ارسل اليك </option>
+                                <option @if($orders_view[0]->orders_status == "3") selected @endif value="3" >شكرا للتسوق في بازار </option>
+                                <option @if($orders_view[0]->orders_status == "4") selected @endif value="4" >أرشيف</option>
                             </select>
                         </div>
-                        <div class="col-12 divider" style="min-height: 2px;"></div>
-                        <br>
-                        <div class="col-12">
-                            <button class="btn btn-success" id="submitEvaluation">حفظ</button>
-                        </div>
-                    </div>
-
-    
-                    <div>
-                        _________________________________________________
-                        <br>
                     </div>
                     
                     <div class="col-12 p-3">
@@ -43,147 +196,10 @@
                                     <div class="col-12 p-3 row">
                                     <div class="col-12 col-lg-6 p-2">
                                         <div class="col-12">
-                                            المضمون عربي
-                                        </div>
-                                        <div class="col-12 pt-3">
-                                            <input type="text" name="body"  maxlength="190" class="form-control" value="{{old('body')}}">
-                                        </div>
-                                    </div>
-                    
-                                    <div class="col-12 col-lg-6 p-2">
-                                        <div class="col-12">
-                                            المضمون اجنبي
-                                        </div>
-                                        <div class="col-12 pt-3">
-                                            <input type="text" name="body_en"  maxlength="190" class="form-control" value="{{old('body_en')}}">
-                                        </div>
-                                    </div>
-                    
-                                    <div class="col-12 col-lg-6 p-2">
-                                        <div class="col-12">
-                                            المضمون روسي
-                                        </div>
-                                        <div class="col-12 pt-3">
-                                            <input type="text" name="body_ru" maxlength="190" class="form-control" value="{{old('body_ru')}}">
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-                    {{-- <div class="col-12 col-lg-6 p-2">
-                        <div class="col-12">
-                            التصنيف
-                        </div>
-                        <div class="col-12 pt-3">
-                            <select class="form-control" name="orders_cat" required>
-                                @foreach($categorie as $categorie)
-                                <option selected value="{{$categorie->categories_id}}">{{$categorie->categories_name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div> --}}
-
-
-
-                    {{-- <div class="col-12 col-lg-6 p-2">
-                        <div class="col-12">
-                           الموظف
-                        </div>
-                        <select class="form-control" name="auther_id" required>
-                            <option value selected disabled hidden>إختر الموظف</option>
-                            @foreach($auther as $auther)
-                            <option value="{{$auther->id}}" @if($tran->auther_id==$auther->id) selected @endif>{{$auther->name}}</option>
-                            @endforeach
-                        </select>
-                    </div> --}}
-
-
-                
-                        
-                 
-                <div class="col-9 p-3 row">
-                    @foreach ($orders as $order)
-                    <div class="col-12 col-lg-6 p-2">
-                        <div class="col-12">
-                            السعر الكلي
-                        </div>
-                        <div class="col-12 pt-3">
-                            <input type="text" name="orders_name_ar"  value="{{$order->itemsprice}}" required maxlength="190" class="form-control" >
-                        </div>
-                    </div>
-                        <div class="col-12 col-lg-6 p-2">
-                            <div class="col-12">
-                                اسم المنتج
-                            </div>
-                            <div class="col-12 pt-3">
-                                <input type="text" name="orders_discount" value="{{$order->items_name}}" required maxlength="190" class="form-control" >
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-6 p-2">
-                            <div class="col-12">
-                                السعر المنتج
-                            </div>
-                            <div class="col-12 pt-3">
-                                <input type="text" name="countitems" value="{{$order->items_price}}" required maxlength="190" class="form-control" >
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-lg-6 p-2">
-                            <div class="col-12">
-                                الكمية
-                            </div>
-                            <div class="col-12 pt-3">
-                                <input type="text" name="countitems" value="{{$order->countitems}}" required maxlength="190" class="form-control" >
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-6 p-2">
-                            <div class="col-12">
-                                الخصم المطبق
-                            </div>
-                            <div class="col-12 pt-3">
-                                <input type="text" name="countitems" value="{{$order->items_discount}}%" required maxlength="190" class="form-control" >
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-lg-6 p-2">
-                            <div class="col-12">
-                                الصوره
-                            </div>
-                            <div>
-                                 <img src="{{URL('Bazar/items/'.$order->items_image_main)}}" alt="*image" style="width: 300px;"/>
-                            </div>
-                        </div>
-                        <form id="validate-form" class="row" enctype="multipart/form-data" method="POST" action="{{route('admin.order.update',$order->cart_id)}}" >
-                            @csrf
-                            @method('PUT')
-                        @if ($order->items_delay == 1)
-                        <div class="col-12 col-lg-6 p-2">
-                            <div class="col-12">
-                                حاله المنتج
-                            </div>
-                            <div class="col-12 pt-3">
-                                <select  class="form-control" name="cart_status" required>
-                                    <option @if($order->cart_status == "0") selected @endif value="0" > في انتظار الموافقه</option>
-                                    <option @if($order->cart_status == "1") selected @endif value="1" >يتم تحضير الطلب </option>
-                                    <option @if($order->cart_status == "2") selected @endif value="2" >جاهز للاستلام من قبل مندوب التوصيل </option>
-                                    <option @if($order->cart_status == "3") selected @endif value="3" >علي الطريق </option>
-                                    <option @if($order->cart_status == "4") selected @endif value="4" >تم انجاز الطلب </option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        
-                                <div  class="card" style="width: 450px;">
-                                    <div class="col-12 p-3 ">
-                                    <div class="col-12 col-lg-6 p-2">
-                                        <div class="col-12">
                                             الاشعار عربي
                                         </div>
                                         <div class="col-12 pt-3">
-                                            <input type="text" name="body"  maxlength="190" class="form-control" value="{{old('body')}}">
+                                            <input type="text" name="body"  maxlength="190" class="form-control">
                                         </div>
                                     </div>
                     
@@ -192,7 +208,7 @@
                                             الاشعار اجنبي
                                         </div>
                                         <div class="col-12 pt-3">
-                                            <input type="text" name="body_en"  maxlength="190" class="form-control" value="{{old('body_en')}}">
+                                            <input type="text" name="body_en"  maxlength="190" class="form-control">
                                         </div>
                                     </div>
                     
@@ -201,41 +217,28 @@
                                             الاشعار روسي
                                         </div>
                                         <div class="col-12 pt-3">
-                                            <input type="text" name="body_ru" maxlength="190" class="form-control" value="{{old('body_ru')}}">
+                                            <input type="text" name="body_ru" maxlength="190" class="form-control" >
                                         </div>
                                     </div>
                                     </div>
                                 </div>
-                                
-                        
-                        <div class="col-12 p-3">
+                        </div>
+                        <div class="col-12">
                             <button class="btn btn-success" id="submitEvaluation">حفظ</button>
                         </div>
-                        @endif
-                        <div>
-                            ____________________________________________________________________________
-                            <br>
-                            <br>
-                        </div>
-                       
-                    </form>
- @endforeach
- <div class="col-12 col-lg-6 p-2">
-    <div class="col-12">
-        تفاصيل المستخدم
-    </div>
-    <div class="col-12 pt-3">
-        <input type="text" name="countitems" value="{{$users->name}}" required maxlength="190" class="form-control" >
-        <input type="text" name="countitems" value="{{$users->email}}" required maxlength="190" class="form-control" >
-        <input type="text" name="countitems" value="{{$users->phone}}" required maxlength="190" class="form-control" >
-    </div>
-</div>
+                    </div>
                 </div>
+            </form>
 
-            </div>
 
+
+
+        
     </div>
+            
+        </div>
+        
+    </div>
+    
 </div>
-
-
 @endsection

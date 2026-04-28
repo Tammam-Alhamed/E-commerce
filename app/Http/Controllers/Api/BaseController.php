@@ -43,6 +43,7 @@ class BaseController extends Controller
             DB::raw('1 as favorite'),
             DB::raw('round((items_price_d) * price.price, -3) as itemsprice'),
             DB::raw('round((items_price_d - (items_price_d * items_discount / 100)) * price.price, -3) as itemspricediscount_d'),
+            'users.my_point'
         ])
         ->join('favorite', function ($join) use ($userId) {
             $join->on('favorite.favorite_itemsid', '=', 'items1view.items_id')
@@ -51,6 +52,9 @@ class BaseController extends Controller
         ->join('price', function ($join) {
             $join->on('items1view.items_id', '=', 'items1view.items_id');
         })
+        ->join('users', function ($join) use($userId) {
+            $join->where('users.id', '=', $userId);
+        })
         ->where($where1 , $op ,$where2)
         ->unionAll(function ($query) use ($userId , $where1 , $where2 , $op) {
             $query->select([
@@ -58,10 +62,14 @@ class BaseController extends Controller
                 DB::raw('0 as favorite'),
                 DB::raw('round((items_price_d) * price.price, -3) as itemsprice'),
                 DB::raw('round((items_price_d - (items_price_d * items_discount / 100)) * price.price, -3) as itemspricediscount_d'),
+                'users.my_point'
             ])
                 ->from('items1view')
                 ->join('price', function ($join) {
                     $join->on('items1view.items_id', '=', 'items1view.items_id');
+                })
+                ->join('users', function ($join) use ($userId) {
+                    $join->where('users.id', '=', $userId);
                 })
                 ->where($where1 ,$op , $where2)
                 ->whereNotIn('items1view.items_id', function ($subQuery) use ($userId) {
@@ -70,6 +78,9 @@ class BaseController extends Controller
                         ->join('favorite', function ($join) use ($userId) {
                             $join->on('favorite.favorite_itemsid', '=', 'items1view.items_id')
                                 ->where('favorite.favorite_usersid', '=', $userId);
+                        })
+                        ->join('users', function ($join) use ($userId) {
+                            $join->where('users.id', '=', $userId);
                         })
                         ->join('price', function ($join) {
                             $join->on('items1view.items_id', '=', 'items1view.items_id');

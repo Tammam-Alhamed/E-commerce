@@ -7,79 +7,59 @@ use Illuminate\Http\Request;
 
 class TagsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $tags = tags::all();
+        return view('admin.tags.index' , compact('tags'));    
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+        return view('admin.tags.create');    
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => "required",
+        ]);
+
+        
+        $tags = tags::create([
+            'name' => $request->name
+        ]);
+
+        return redirect()->route('admin.tags.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\tags  $tags
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(tags $tags)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\tags  $tags
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(tags $tags)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\tags  $tags
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, tags $tags)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\tags  $tags
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(tags $tags)
+
+    public function destroy(tags $tag)
     {
-        //
+        if(!auth()->user()->has_access_to('delete',$tag))abort(403);
+        $tag->delete();
+
+        flash()->success('تم حذف التاغ بنجاح','عملية ناجحة');
+        return redirect()->route('admin.tags.index');    
     }
 }

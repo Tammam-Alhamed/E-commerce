@@ -29,6 +29,7 @@
 					<tr>
 						<th>سعر الصرف</th>
 						<th>تحكم</th>
+						<th>النقطه </th>
 					</tr>
 				</thead>
 				<tbody>
@@ -37,7 +38,9 @@
 						<td>
                             {{$price->price}}
                         </td>
-
+						<td>
+                            {{$price->point}}
+                        </td>
 						<td style="width: 270px;">
 
 							

@@ -16,13 +16,21 @@
 
                     <div class="col-12 p-2">
                         <div class="col-12">
-                            الصورة 
+                            سعر الصرف 
                         </div>
                         <div class="col-12 pt-3">
                             <input type="text" name="price" value="{{$price->price}}" required maxlength="190" class="form-control" >
                         </div>
                     </div>
                     
+                    <div class="col-12 p-2">
+                        <div class="col-12">
+                            سعر النقطه 
+                        </div>
+                        <div class="col-12 pt-3">
+                            <input type="text" name="point" value="{{$price->point}}" required maxlength="190" class="form-control" >
+                        </div>
+                    </div>
 
                 </div>
             </div>

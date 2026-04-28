@@ -25,7 +25,7 @@ class PushNotificationController extends Controller
         $comment->notification_body_ru = $req->input('body_ru');
         $comment->save();
         
-    $url = 'https://fcm.googleapis.com/fcm/send';
+    $url = '  https://fcm.googleapis.com/v1/projects/al3ashra-3c5a3/messages:send';
 
     $fields = array(
         "to" => '/topics/' . $topic,

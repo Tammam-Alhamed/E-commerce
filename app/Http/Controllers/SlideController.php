@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Offers;
 use App\Models\slide;
 use Illuminate\Http\Request;
 
@@ -10,8 +11,9 @@ class SlideController extends Controller
 
     public function index()
     {
+        $offers = offers::all();
         $slide = slide::all();
-        return view('admin.slide.index' , compact('slide'));
+        return view('admin.slide.index' , compact('slide','offers'));
     }
 
 
@@ -30,7 +32,7 @@ class SlideController extends Controller
         $slides_image = $request->slides_image;
         $newphoto = random_int(min:50 , max:1000000).random_int(min:50 , max:1000000);
         $slides_image->move('Bazar/slides',$newphoto);
-        
+
         $slide = slide::create([
             'slides_image' => $newphoto
         ]);
@@ -53,14 +55,21 @@ class SlideController extends Controller
 
     public function update(Request $request, slide $slide)
     {
-        $slide_image = $request->slide_image;
-        $newphoto = random_int(min:50 , max:1000000).random_int(min:50 , max:1000000);
-        $slide_image->move('Bazar/slides',$newphoto);
-        
-        $slide->update([
-            'slides_image' => $newphoto
-        ]);
-    
+        $filename = $request->file('slide_image');
+
+        if (!is_null($filename)){
+            $newphoto = random_int(min:50 , max:1000000).random_int(min:50 , max:1000000);
+            $filename->move('Bazar/slides',$newphoto);
+            $slide->update([
+                'slides_image' => $newphoto,
+                'slides_name' => $request->slides_name,
+            ]);
+        }else{
+            $slide->update([
+                'slides_name' => $request->slides_name,
+            ]);
+        }
+
         return redirect()->route('admin.slide.index');
     }
 

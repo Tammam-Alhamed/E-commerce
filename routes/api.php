@@ -34,10 +34,14 @@ Route::post('register', 'Api\RegisterController@register');
         Route::post('/Z_to_A',[itemsController::class,'Z_to_A'])->name('Z_to_A');
         Route::post('/price_highest',[itemsController::class,'price_highest'])->name('price_highest');
         Route::post('/price_lowest',[itemsController::class,'price_lowest'])->name('price_lowest');
+        Route::post('/filter_get',[itemsController::class,'filter_get'])->name('filter_get');
+        Route::post('/filter_request',[itemsController::class,'filter_get'])->name('filter_request');
+
     });
     Route::prefix('home')->name('home.')->group(function(){
         Route::post('/homeItems',[HomeController::class,'index'])->name('homeItems');
-        Route::post('/search',[HomeController::class,'search'])->name('search');
+        Route::post('/search', [HomeController::class, 'search'])->name('search');
+        Route::post('/slides',[HomeController::class,'slides'])->name('slides');
     });
     Route::resource('Banner',BannerController::class);
     // Route::resource('Items',itemsController::class);

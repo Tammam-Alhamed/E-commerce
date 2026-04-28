@@ -27,7 +27,8 @@ class PriceController extends Controller
     public function update(Request $request, price $price)
     {
         $price->update([
-            'price' => $request->price
+            'price' => $request->price,
+            'point' => $request->point
         ]);
 
         return redirect()->route('admin.price.index');

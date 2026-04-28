@@ -16,7 +16,7 @@ Carbon::setLocale('ar');
 use Storage;
 use Intervention\Image\ImageManager;
 use Imagick;
-
+use Google\Auth\Credentials\ServiceAccountCredentials;
 
 
 class Controller extends BaseController
@@ -234,39 +234,29 @@ class Controller extends BaseController
         return substr($t,0,230);
     }
 
-    public function fm($topic , $title , $body){
-        
-        $url = 'https://fcm.googleapis.com/fcm/send';
-
-        $fields = array(
-            "to" => '/topics/' . $topic,
-            'priority' => 'high',
-            'content_available' => true,
+    public function fm($topic, $title, $body)
+    {
+        $url = 'https://fcm.googleapis.com/v1/projects/al3ashra-3c5a3/messages:send';
     
-            'notification' => array(
-                "body" =>  $body,
-                "title" =>  $title,
-                "click_action" => "FLUTTER_NOTIFICATION_CLICK",
-                "sound" => "default",
-                "icon" => "ic_stat_logoapp"
-            ),
-            
-            
-              'data' => array(
-                "pageid" => "none",
-                "pagename" => "refreshorderpending",
-                "unread" => "1"
-            )
+        $fields = [
+            "message" => [
+                "topic" => $topic, 
+                'notification' => [
+                    "body" => $body,
+                    "title" => $title,
+                ],
+            ],
+        ];
     
-    
-        );
-    
-    
+        $scopes = ['https://www.googleapis.com/auth/firebase.messaging'];
+        $credentials = new ServiceAccountCredentials($scopes, '../public/al3ashra-3c5a3-firebase-adminsdk-626uh-55aa46ba1e.json');
+        $accessToken = $credentials->fetchAuthToken()['access_token'];
         $fields = json_encode($fields);
-        $headers = array(
-            'Authorization: key=' . "AAAANuTldds:APA91bGqzFjZQ2QmpLoT7wY3QRhLWZuNpfmiqWenQY5WYLEJzQ2mm87gSPmZtlSgifD0c_Y98oj3cJFNHVjxzRKDub-2sXxP8sY6Ki0ayWt96aqXdIr7sZwdqmyOA5NKUcFzJ1YDeQK1",
-            'Content-Type: application/json'
-        );
+
+        $headers = [
+            'Authorization: Bearer ' . $accessToken,
+            'Content-Type: application/json',
+        ];
     
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -276,8 +266,9 @@ class Controller extends BaseController
         curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
     
         $result = curl_exec($ch);
+                curl_close($ch);
+
         return $result;
-        curl_close($ch);
     }
     
 }

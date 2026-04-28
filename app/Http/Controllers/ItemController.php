@@ -6,6 +6,7 @@ use App\Models\item;
 use App\Models\size;
 use App\Models\color;
 use App\Models\image;
+use App\Models\tags;
 use App\Models\categorie;
 use GuzzleHttp\Psr7\Uri;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class ItemController extends Controller
 
     public function index()
     {
-        
+
         $items = item::with('categorie')->Paginate(100);
         return view('admin.item.index' , compact('items'));
     }
@@ -25,12 +26,14 @@ class ItemController extends Controller
 
     public function create()
     {
+        $tags = tags::all();
+
         $categorie = categorie::all();
-        return view('admin.item.create' , compact('categorie'));
+        return view('admin.item.create' , compact('categorie' , 'tags'));
     }
 
 
-    public function store(Request $request)
+    public function store(Request $request , categorie $cat)
     {
         $request->validate([
             'items_name'=>"required",
@@ -42,7 +45,7 @@ class ItemController extends Controller
         $items_image = $request->items_image_main;
     $newphoto = random_int(min:50 , max:1000000).random_int(min:50 , max:1000000);
         $items_image->move('Bazar/items',$newphoto);
-        $item = item::create([ 
+        $item = item::create([
             'items_image_main'=>$newphoto,
             'items_name'=> $request->items_name,
             'items_cat'=> $request->items_cat,
@@ -61,6 +64,9 @@ class ItemController extends Controller
             'items_new'=> $request->items_new,
             'items_offer'=> $request->items_offer,
             'items_sold'=> $request->items_sold,
+            'items_point'=> $request->items_point,
+            'items_maxPoint'=> $request->items_maxPoint,
+
         ]);
 
         $file = array();
@@ -69,7 +75,7 @@ class ItemController extends Controller
     // $items_image = $request->items_image;
     $newphoto = random_int(min:50 , max:1000000).random_int(min:50 , max:1000000);
     $files->move('Bazar/items',$newphoto);
-     
+
      DB::table('images')->insert( [
         'images_name'=>  $newphoto,
         'images_items' => $item->items_id
@@ -80,6 +86,7 @@ class ItemController extends Controller
             DB::table('colors')->insert( [
                 'colors_name'=>  "0",
                 'colors_items' => $item->items_id,
+                'colors_cat' => $item->items_cat
             ]);
 
     if($request->colors_name != null){
@@ -89,6 +96,7 @@ class ItemController extends Controller
      DB::table('colors')->insert( [
         'colors_name'=>  $colors,
         'colors_items' => $item->items_id,
+        'colors_cat' => $item->items_cat
     ]);}
 }
 
@@ -99,35 +107,56 @@ class ItemController extends Controller
 
     if($request->sizes_name != null){
         $size = array();
-        $size = $request->sizes_name;  
+        $size = $request->sizes_name;
      foreach($size as $sizes){
      DB::table('sizes')->insert( [
         'sizes_name'=>  $sizes,
         'sizes_items' => $item->items_id,
     ]);}
 }
+// dd($request->input('name_tag'));
+        // $item->tags()->attach(id: $request->input('name_tag'));
+        // foreach ($request->input('name_tag') as $tag) {
+        //     $reqCat[] = $item->items_cat; // Add to the array
+        // }
+        // dd($reqCat);
+        // $reqCat = $request->input(key: 'items_cat');
+        // $cat->tags()->attach($reqCat);
+
+        foreach ($request->input('name_tag') as $tag) {
+            DB::table('item_tags')->insert([
+                'tags_id' => $tag ,
+                'items_id' =>  $item->items_id ,
+                'cat_id' => $request->items_cat
+            ]);
+        }
+
+        // $item->tagsCat()->attach($request->items_cat);
 
         flash()->success('تم إضافة المنتج بنجاح','عملية ناجحة');
         return redirect()->route('admin.item.index');
     }
 
 
+
+
+
+
     public function edit( $items_id)
     {
-        $images = DB::table('images')
-        ->select('*')
-        ->where('images_items'  , $items_id)
-        ->get();
-
+        $images = DB::table('images')->select('*')->where('images_items'  , $items_id)->get();
         $categorie = categorie::all();
         $item = item::find($items_id);
-        return view('admin.item.edit' , compact('item' , 'categorie' , 'images'));
+        $tags = tags::all();
+        $tagsSelected = $item->tags();
+        return view('admin.item.edit' , compact('item' , 'categorie' , 'images'  , 'tags' , 'tagsSelected'));
     }
 
 
-    public function update(Request $request, item $item)
+
+    public function update(Request $request, item $item )
     {
-        
+
         $filename = $request->file('items_image_main');
         $filename_multi = $request->file('items_image');
         if(!auth()->user()->has_access_to('update',$item))abort(403);
@@ -150,24 +179,57 @@ class ItemController extends Controller
                 'items_new'=> $request->items_new,
                 'items_offer'=> $request->items_offer,
                 'items_sold'=> $request->items_sold,
-                
+                'items_point'=> $request->items_point,
+                'items_maxPoint'=> $request->items_maxPoint,
             ]);
-            //size
-                $sizes = $request->input('sizes');  //here scores is the input array param 
+                #####################sizes####################
+
+                $sizes = $request->input('sizes');  //here scores is the input array param
                 foreach($sizes as $row){
-                    $score = size::find($row['sizes_id']); 
-                    $score->sizes_name = $row['sizes_name']; 
-                    $score->sizes_id = $row['sizes_id']; 
-                    $score->save(); 
+                    $score = size::find($row['sizes_id']);
+                    $score->sizes_name = $row['sizes_name'];
+                    $score->sizes_id = $row['sizes_id'];
+                    $score->sizes_cat = $request->items_cat;
+                    $score->save();
                 }
-                //color
-                $colors = $request->input('colors');  //here scores is the input array param 
+                #####################colors####################
+
+                $colors = $request->input('colors');  //here scores is the input array param
                 foreach($colors as $row){
-                    $score = color::find($row['colors_id']); 
-                    $score->colors_name = $row['colors_name']; 
-                    $score->colors_id = $row['colors_id']; 
-                    $score->save(); 
+                    $score = color::find($row['colors_id']);
+                    $score->colors_name = $row['colors_name'];
+                    $score->colors_id = $row['colors_id'];
+                    $score->colors_cat = $request->items_cat;
+                    $score->save();
                 }
+
+                #####################tags####################
+
+
+                // Get the current tags associated with the item
+                $currentTags = $item->tags()->pluck('tags_id')->toArray();
+
+                // Determine which tags need to be detached
+                $tagsToDetach = array_diff($currentTags, $request->input('name_tag'));
+
+                // Detach the tags that are not in the new selection
+                if (!empty($tagsToDetach)) {
+                    $item->tags()->detach($tagsToDetach);
+                }
+
+                // Update or attach the new tags
+                foreach ($request->input('name_tag') as $tag) {
+                    DB::table('item_tags')->updateOrInsert(
+                        ['tags_id' => $tag,
+                         'items_id' => $item->items_id],
+                        ['cat_id' => $request->items_cat]
+                    );
+                }
+
+
+                #####################images####################
+
+
                 if($filename_multi != null){
                     //delete photo from folder
                     $imagePath = image::where('images_items' , '=' , $item->items_id)->get();
@@ -175,10 +237,10 @@ class ItemController extends Controller
                     $delete->delete();
                     $images = array();
                     $images = $request->items_image;
-                    
+
                     foreach($imagePath as $image){
                         $filePath = $image->images_name;
-                        
+
                     if(file_exists(base_path().'/Bazar/items/'.$filePath)){
                         unlink(base_path().'/Bazar/items/'.$filePath);
                     }
@@ -192,9 +254,10 @@ class ItemController extends Controller
                     ]);
                 }
             }
-            
+
+
         }else{
-            
+
             if($filename_multi != null){
             //delete photo from folder
             $imagePath = image::where('images_items' , '=' , $item->items_id)->get();
@@ -202,7 +265,7 @@ class ItemController extends Controller
             $delete->delete();
             $images = array();
             $images = $request->items_image;
-            
+
             foreach($imagePath as $image){
             $filePath = $image->images_name;
                 unlink(base_path() . '/Bazar/items/'. $filePath);
@@ -220,7 +283,7 @@ class ItemController extends Controller
         $items_image = $request->items_image_main;
         $newphoto = random_int(min:50 , max:1000000).random_int(min:50 , max:1000000);
         $items_image->move('Bazar/items',$newphoto);
-        
+
         $item->update([
             'items_image_main'=>$newphoto,
             'items_name' => $request->items_name,
@@ -242,13 +305,48 @@ class ItemController extends Controller
             'items_sold'=> $request->items_sold,
         ]);
 
-        $sizes = $request->input('sizes');  //here scores is the input array param 
-        foreach($sizes as $row){
-            $score = size::find($row['sizes_id']); 
-            $score->sizes_name = $row['sizes_name']; 
-            $score->sizes_id = $row['sizes_id']; 
-            $score->save(); 
-        }
+
+             #####################tags####################
+
+                // Get the current tags associated with the item
+                $currentTags = $item->tags()->pluck('tags_id')->toArray();
+
+                // Determine which tags need to be detached
+                $tagsToDetach = array_diff($currentTags, $request->input('name_tag'));
+
+                // Detach the tags that are not in the new selection
+                if (!empty($tagsToDetach)) {
+                    $item->tags()->detach($tagsToDetach);
+                }
+
+                // Update or attach the new tags
+                foreach ($request->input('name_tag') as $tag) {
+                    DB::table('item_tags')->updateOrInsert(
+                        ['tags_id' => $tag, 'items_id' => $item->items_id],
+                        ['cat_id' => $request->items_cat]
+                    );
+                }
+
+             #####################sizes####################
+
+             $sizes = $request->input('sizes');  //here scores is the input array param
+                foreach($sizes as $row){
+                    $score = size::find($row['sizes_id']);
+                    $score->sizes_name = $row['sizes_name'];
+                    $score->sizes_id = $row['sizes_id'];
+                    $score->sizes_cat = $request->items_cat;
+                    $score->save();
+                }
+             #####################colors####################
+
+                $colors = $request->input('colors');  //here scores is the input array param
+                foreach($colors as $row){
+                    $score = color::find($row['colors_id']);
+                    $score->colors_name = $row['colors_name'];
+                    $score->colors_id = $row['colors_id'];
+                    $score->colors_cat = $request->items_cat;
+                    $score->save();
+                }
 
     }
         return redirect()->back();

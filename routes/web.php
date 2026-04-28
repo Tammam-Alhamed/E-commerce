@@ -1,16 +1,15 @@
 <?php
 
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\OffersController;
 use App\Models\User;
 use App\Models\orders;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\bookController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\FrontController;
 use App\Http\Controllers\priceController;
 use App\Http\Controllers\ShopeController;
 use App\Http\Controllers\SlideController;
@@ -18,16 +17,12 @@ use App\Http\Controllers\autherController;
 use App\Http\Controllers\HelperController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\searchController;
-use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SiteMapController;
-use App\Http\Controllers\TrafficsController;
 use App\Http\Controllers\CategorieController;
-use App\Http\Controllers\RedirectionController;
 use App\Http\Controllers\PushNotificationController;
-
+use App\Http\Controllers\TagsController;
 
 
 
@@ -44,11 +39,8 @@ Route::prefix('admin')->middleware(['auth','CheckRole:ADMIN','ActiveAccount'])->
 
     Route::get('/profile',[AdminController::class,'upload_image']);
     Route::get('/profile',[AdminController::class,'upload_image']);
-    
-    Route::resource('contacts',ContactController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
+
     Route::resource('users',UserController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
-    Route::resource('articles',ArticleController::class);
-    Route::resource('book',bookController::class);
     Route::resource('auther',autherController::class);
     Route::resource('price',PriceController::class);
     Route::resource('categorie',CategorieController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
@@ -57,13 +49,14 @@ Route::prefix('admin')->middleware(['auth','CheckRole:ADMIN','ActiveAccount'])->
     Route::resource('order',OrdersController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
     Route::resource('slide',SlideController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
     Route::resource('coupon',CouponController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
-    Route::resource('redirections',RedirectionController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
+    Route::resource('tags',tagsController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
+    Route::resource('offers',OffersController::class)->middleware(['CheckRole:ADMIN|EDITOR']);
+    //offersRoute{
+    Route::get('offersEditItems/{id}',[OffersController::class,'editItems'])->name('offers.edit-items');
+    Route::get('index/{id}',[OffersController::class,'index'])->name('offers.index');
+    Route::get('create/{id}',[OffersController::class,'create'])->name('offers.create');
 
-    Route::get('traffics',[TrafficsController::class,'index'])->name('traffics.index');
-    Route::get('traffics/{traffic}/logs',[TrafficsController::class,'logs'])->name('traffics.logs');
-    Route::get('error-reports',[TrafficsController::class,'error_reports'])->name('traffics.error-reports');
-    Route::get('error-reports/{report}',[TrafficsController::class,'error_report'])->name('traffics.error-report');
-
+    //}
     Route::prefix('upload')->name('upload.')->group(function(){
         Route::post('/image',[HelperController::class,'upload_image'])->name('image');
         Route::post('/file',[HelperController::class,'upload_file'])->name('file');
@@ -101,9 +94,7 @@ Route::view('about','front.pages.about');
 Route::view('privacy','front.pages.privacy');
 Route::view('terms','front.pages.terms');
 Route::view('contact','front.pages.contact');
-Route::get('article/{article}',[FrontController::class,'article'])->name('article.show');
-Route::get('blog',[FrontController::class,'blog'])->name('blog');
-Route::post('contact',[FrontController::class,'contact_post'])->name('contact-post');
+
 
 
 

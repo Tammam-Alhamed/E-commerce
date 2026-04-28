@@ -80,10 +80,10 @@
                                 <select class="form-control" name="items_active" required>
                                     <option selected  value="1" > فعاله</option>
                                     <option  value="2" >غير فعاله</option>
-    
+
                                 </select>
                             </div>
-    
+
                         </div> --}}
                         <div class="col-12 col-lg-6 p-2">
                             <div class="col-12">
@@ -158,6 +158,30 @@
                             </div>
                         </div>
 
+                        <div class="col-12 col-lg-6 p-2">
+                            <div class="col-12">
+                                النقاط المكتسبه
+                            </div>
+                            <div class="col-12 pt-3">
+                                <input type="number" name="items_point" maxlength="190" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 p-2">
+                            <div class="col-12">
+                                الحد الاقصى لاستخدام النقاط
+                            </div>
+                            <div class="col-12 pt-3">
+                                <input type="number" name="items_maxPoint" maxlength="190" class="form-control">
+                            </div>
+                        </div>
+
+                        <label for="tags">Tags</label>
+                        <select id="tags" name="name_tag" data-placeholder="Select Tag" multiple data-multi-select>
+                            @foreach ($tags as $tag)
+                            <option value="{{$tag->id}}">{{$tag->name}}</option>
+                            @endforeach
+                        </select>
+
                         <div class="col-12 p-2">
                             <div class="col-12">
                                 الصورة الرئيسية
@@ -210,7 +234,7 @@
                             </div>
 
                             <div class='item'>
-                                
+
                                 <button type="button" id="add_color">Add +</button>
                             </div>
                             <div id="items_color">
@@ -250,7 +274,7 @@
                             </div>
 
                             <div class='item'>
-                                
+
                                 <button type="button" id="add">Add +</button>
                             </div>
                             <div id="items">
@@ -281,7 +305,7 @@
                                     });
                                 })
                             </script>
-                            
+
                         </div>
                     </div>
                 </div>

@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 
+use App\Models\categorie;
+use App\Models\item;
+use App\Models\color;
+use App\Models\size;
+use App\Models\tags;
 use Illuminate\Http\Request;
 use App\Http\Resources\favorite;
 use Illuminate\Support\Facades\DB;
@@ -255,9 +260,70 @@ class itemsController extends BaseController
         }
     }
 
-    public function create()
+
+
+    public function filter_get(request $request)
     {
-        //
+        $userId = $request['usersid'];
+        $categoryId = $request ['id'];
+        $limit = $request['limit'];
+        $lang = $request['lang'];
+
+        
+
+
+        $color = color::where('colors_cat', $categoryId)->distinct()->orderBy('colors_name')  ->pluck('colors_name');; 
+        $size = size::where('sizes_cat', $categoryId)->distinct()->orderBy('sizes_name') ->pluck('sizes_name'); 
+        $tags = Tags::whereIn('id', function($query) use ($categoryId) {
+            $query->select('id') // Assuming 'tag_id' is the foreign key in the pivot table
+                  ->from('item_tags') // Replace with your pivot table name
+                  ->whereIn('items_id', function($subQuery) use ($categoryId) {
+                      $subQuery->select('items_id')
+                                ->from('items')
+                                ->where('items_cat', $categoryId); // Adjust this as per your items table
+                  });
+        })->distinct()
+          ->orderBy('name') // Adjust to match your tag name column
+          ->pluck('name'); // Replace 'name' with the actual column name for the tag 
+
+            // $cat = color::where('colors_cat' , '=' , $categoryId)->get();
+
+
+
+    $cat1 =array('color' => $color,'size' => $size,  'tags' => $tags);
+
+    return $this->sendResponse($cat1  , 'this is items' );
+
+    // return response()->json($cat1, 200);
+
+    }
+
+    public function filter_request(request $request)
+    {
+        $userId = $request['usersid'];
+        $categoryId = $request ['id'];
+        $limit = $request['limit'];
+        $lang = $request['lang'];
+        $data = $request['data'];
+        
+        return $this->sendResponse($data  , 'this is items' );
+
+        switch ($data) {
+            case $data['color']:
+              //code block
+              break;
+            case $data['Size']:
+              //code block;
+              break;
+            case $data['tag']:
+              //code block
+              break;
+            case $data['price']:
+                //code
+              break;
+            default:
+              //code block
+          }
     }
 
 

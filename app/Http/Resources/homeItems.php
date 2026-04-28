@@ -51,7 +51,12 @@ class homeItems extends JsonResource
             'items_filter' => "$this->items_filter",
             'items_sold' => "$this->items_sold",
             'itemsprice' => "$this->itemsprice",
-        
+            'items_point' => "$this->items_point" ,
+            'items_maxPoint' => "$this->items_maxPoint" ,
+            'my_point' => "$this->my_point",
+            'price_point' => "$this->price_point",
+
+
         ];
     }
 }

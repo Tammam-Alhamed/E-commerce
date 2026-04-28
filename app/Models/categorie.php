@@ -21,7 +21,7 @@ class categorie extends Model
      */
     public function item(): HasMany
     {
-        return $this->hasMany(item::class);
+        return $this->hasMany(item::class , 'items_cat');
     }
 
     public function shope(): BelongsTo

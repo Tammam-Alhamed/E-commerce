@@ -15,6 +15,71 @@
     <link rel="stylesheet" type="text/css" href="{{asset('/css/jquery.fileuploader.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('/css/jquery.fileuploader-theme-dragdrop.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('/css/main.css')}}">
+    <link href="MultiSelect.css" rel="stylesheet" type="text/css">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        /* Optional: Make Select2 match Bootstrap 5 */
+        .select2-container--default .select2-selection--single {
+            height: 38px;
+            padding: 0.375rem 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 26px;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 38px;
+            right: 10px;
+        }
+    </style>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 2rem;
+        }
+
+        .searchable-dropdown {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ccc;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            z-index: 10;
+        }
+
+        .option {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .option:hover {
+            background-color: #f0f0f0;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
     @php
     $page_title="لوحة التحكم";
     @endphp
@@ -34,7 +99,7 @@
             font-family: 'Noto Kufi Arabic', sans-serif;
         }
         .fa, .fas {
-            font-family: "Font Awesome 5 Pro"!important; 
+            font-family: "Font Awesome 5 Pro"!important;
             font-weight: 900;
         }
         ol,ul{
@@ -64,9 +129,9 @@
     @yield('after-body')
     @if(flash()->message)
         <div style="position: absolute;z-index: 4444444444444;left: 35px;top: 80px;max-width: calc(100% - 70px);padding: 16px 22px;border-radius: 7px;overflow: hidden;width: 273px;border-right: 8px solid #374b52;background: #2196f3;color: #fff;cursor: pointer;"  onclick="$(this).slideUp();">
-            <span class="fas fa-info-circle"></span> {{ flash()->message }} 
+            <span class="fas fa-info-circle"></span> {{ flash()->message }}
         </div>
-    @endif 
+    @endif
     <div class="col-12 justify-content-end d-flex">
         @if($errors->any())
         <div class="col-12" style="position: absolute;top: 80px;left: 10px;">
@@ -95,7 +160,7 @@
                 <livewire:files-viewer />
             </div>
           </div>
-         
+
         </div>
       </div>
     </div>
@@ -104,13 +169,13 @@
 
     <form method="POST" action="{{route('logout')}}" id="logout-form" class="d-none">@csrf</form>
     <div class="col-12 d-flex">
-        
+
 
         <div style="width: 280px;background: #11233b;min-height: 100vh;position: fixed;z-index: 100" class="aside active">
             <div class="col-12 px-0 d-flex" style="height: 60px;background: #1a2d4d">
                 <div class="col-12 px-2 font-3  d-flex  justify-content-center pt-md-1" style="color: #fff">
                     <span class="fal fa-chart-pie font-4 pt-3 d-inline-block "></span>
-                    <span class="d-inline-block px-2 pt-2">لوحة التحكم</span> 
+                    <span class="d-inline-block px-2 pt-2">لوحة التحكم</span>
                     <div class="d-flex d-md-none justify-content-center align-items-center px-0   asideToggle" style="width: 60px;height: 60px;">
                         <span class="fal fa-bars font-4 cursor-pointer"></span>
                     </div>
@@ -122,7 +187,7 @@
                 </a>
                 <div class="col-12 px-0 mt-2" style="color: #fff">
                     مرحباً {{auth()->user()->name}}
-                </div> 
+                </div>
             </div>
             <div class="col-12 px-0">
                 <div class="col-12 px-0">
@@ -130,146 +195,164 @@
                     <a href="{{route('admin.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex" >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal fa-home font-3"> </span> 
+                                <span class="fal fa-home font-3"> </span>
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                 الرئيسية
-                            </div> 
+                            </div>
                         </div>
                     </a>
                     <a href="{{route('admin.coupon.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal fa-credit-card font-3"> </span> 
+                                <span class="fal fa-credit-card font-3"> </span>
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                 الكوبونات
-                            </div> 
+                            </div>
                         </div>
                     </a>
 
                {{--     <a href="{{route('genres.index')}}admin.genres.index" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fas fa-hands-helping font-3"> </span> 
+                                <span class="fas fa-hands-helping font-3"> </span>
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                 شركاء النجاح
-                            </div> 
+                            </div>
                         </div>
                     </a>
                     <a href="#" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal fa-box-full font-3"> </span> 
+                                <span class="fal fa-box-full font-3"> </span>
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                 الكورسات
-                            </div> 
+                            </div>
                         </div>
                     </a>
                     <a href="#" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal fa-play font-3"> </span> 
+                                <span class="fal fa-play font-3"> </span>
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                 الفيديوهات
-                            </div> 
+                            </div>
                         </div>
                     </a>
                     <a href="#" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal fa-stars font-3"> </span> 
+                                <span class="fal fa-stars font-3"> </span>
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                 التقييمات
-                            </div> 
+                            </div>
                         </div>
                     </a>--}}
-
-
+                    <a href="{{route('admin.tags.index')}}" class="col-12 px-0">
+                        <div class="col-12 item px-0 d-flex " >
+                            <div style="width: 50px" class="px-3 text-center">
+                                <span class="fas fa-hashtag font-3"> </span>
+                            </div>
+                            <div style="width: calc(100% - 50px)" class="px-2">
+                                التاغات
+                            </div>
+                        </div>
+                    </a>
+{{--                    <a href="{{route('admin.offers.index')}}" class="col-12 px-0">--}}
+{{--                        <div class="col-12 item px-0 d-flex " >--}}
+{{--                            <div style="width: 50px" class="px-3 text-center">--}}
+{{--                                <span class="fas fa-hashtag font-3"> </span> --}}
+{{--                            </div>--}}
+{{--                            <div style="width: calc(100% - 50px)" class="px-2">--}}
+{{--                                العروض--}}
+{{--                            </div> --}}
+{{--                        </div>--}}
+{{--                    </a>--}}
                     <a href="{{route('admin.price.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal fa-sack-dollar font-3"> </span> 
+                                <span class="fal fa-sack-dollar font-3"> </span>
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                 سعر الصرف
-                            </div> 
+                            </div>
                         </div>
                     </a>
 
                     <a href="{{route('admin.slide.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal fa-book font-3"> </span> 
+                                <span class="fal fa-book font-3"> </span>
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                 الاعلانات
-                            </div> 
+                            </div>
                         </div>
-                    </a> 
+                    </a>
                     <a href="{{route('admin.users.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal fa-users font-3"> </span> 
+                                <span class="fal fa-users font-3"> </span>
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                 المستخدمين
-                            </div> 
+                            </div>
                         </div>
                     </a>
                     <a href="{{route('admin.shope.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal  fa-store font-3"> </span> 
+                                <span class="fal  fa-store font-3"> </span>
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                 المتاجر
-                            </div> 
+                            </div>
                         </div>
                     </a>
                     {{-- <a href="{{route('admin.categorie.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal fa-box-full font-3"> </span> 
+                                <span class="fal fa-box-full font-3"> </span>
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                 الأقسام
                                 المستخدمين
-                            </div> 
+                            </div>
                         </div>
                     </a> --}}
                     {{-- <a href="{{route('admin.shope.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal  fa-store font-3"> </span> 
+                                <span class="fal  fa-store font-3"> </span>
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                 المتاجر
-                            </div> 
+                            </div>
                         </div>
                     </a> --}}
                     <a href="{{route('admin.categorie.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal fa-box-full font-3"> </span> 
+                                <span class="fal fa-box-full font-3"> </span>
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                 الأقسام
-                            </div> 
+                            </div>
                         </div>
                     </a>
                     <a href="{{route('admin.item.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal fa-tag font-3"> </span> 
+                                <span class="fal fa-tag font-3"> </span>
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                 المنتجات
-                            </div> 
+                            </div>
                         </div>
                     </a>
                     @php
@@ -277,74 +360,74 @@
                         // $order = DB::table('orders')->select('orders_read')->where('orders_read' ,'=', '0' )->get();
                         // $i = 0;
                         // while ($i < 6) {
-                          
+
                         //   $i++;
-                        // }   
+                        // }
 
                     @endphp
                     <a href="{{route('admin.order.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal fa-box-check font-3"> </span> 
+                                <span class="fal fa-box-check font-3"> </span>
                             </div>
                             <div style="color: red">{{$orders}}</div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                 الطلبات
-                            </div> 
+                            </div>
                         </div>
                     </a>
                     {{-- <a href="{{route('create_noti')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal fa-bell font-3"> </span> 
+                                <span class="fal fa-bell font-3"> </span>
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                 الاشعارات
-                            </div> 
+                            </div>
                         </div>
                     </a> --}}
 
                     <a href="{{route('admin.settings.index')}}" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal fa-wrench font-3"> </span> 
+                                <span class="fal fa-wrench font-3"> </span>
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                الإعدادات
-                            </div> 
+                            </div>
                         </div>
                     </a>
 
-                 <!--   <a href="{{route('admin.traffics.error-reports')}}" class="col-12 px-0">
+                 <!--   <a href="#" class="col-12 px-0">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal fa-bug font-3"> </span> 
+                                <span class="fal fa-bug font-3"> </span>
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                تقارير الأخطاء
-                            </div> 
+                            </div>
                         </div>
                     </a> -->
-                    
+
                     <a href="#" class="col-12 px-0" onclick="document.getElementById('logout-form').submit();">
                         <div class="col-12 item px-0 d-flex " >
                             <div style="width: 50px" class="px-3 text-center">
-                                <span class="fal fa-sign-out-alt font-3"> </span> 
+                                <span class="fal fa-sign-out-alt font-3"> </span>
                             </div>
                             <div style="width: calc(100% - 50px)" class="px-2">
                                تسجيل خروج
-                            </div> 
+                            </div>
                         </div>
                     </a>
                 </div>
             </div>
-           
+
         </div>
         <div class="main-content in-active" style="overflow: hidden;">
             <div class="col-12 px-0 d-flex justify-content-between top-nav" style="height: 60px;box-shadow: 0px 0px 12px #f1f1f1;background: #fff;position: fixed;width: 100%;width: calc(100% - 280px);z-index: 1;">
                 <div class="col-12 px-0 d-flex justify-content-center align-items-center btn btn-light asideToggle" style="width: 60px;height: 60px;">
                     <span class="fal fa-bars font-4"></span>
-                </div> 
+                </div>
                 <div class="col-12 px-0 d-flex justify-content-end  " style="height: 60px;">
                     <div class="btn-group" id="notificationDropdown">
 
@@ -363,7 +446,7 @@
                             <div class="col-12 notifications-container" style="height:406px;overflow: auto;">
                                 <x-notifications :notifications="$notifications" />
                             </div>
-                            <div class="col-12 d-flex border-top"> 
+                            <div class="col-12 d-flex border-top">
                                 <a href="{{route('admin.notifications.index')}}" class="d-block py-2 px-3 ">
                                     <div class="col-12 align-items-center">
                                       <span class="fal fa-bells"></span>  عرض كل الإشعارات
@@ -384,7 +467,7 @@
                         <ul class="dropdown-menu shadow border-0" aria-labelledby="dropdownMenuButton1">
                                 <li><a class="dropdown-item font-1" href="/" target="_blank"><span class="fal fa-desktop font-1"></span> عرض الموقع</a></li>
                                 <li><a class="dropdown-item font-1" href="{{route('admin.profile.index')}}"><span class="fal fa-user font-1"></span> ملفي الشخصي</a></li>
-                                <li><a class="dropdown-item font-1" href="{{route('admin.profile.edit')}}"><span class="fal fa-edit font-1"></span> تعديل ملفي الشخصي</a></li> 
+                                <li><a class="dropdown-item font-1" href="{{route('admin.profile.edit')}}"><span class="fal fa-edit font-1"></span> تعديل ملفي الشخصي</a></li>
                                 <li><hr style="height: 1px;margin: 10px 0px 5px;"></li>
                                 <li><a class="dropdown-item font-1" href="#" onclick="document.getElementById('logout-form').submit();"><span class="fal fa-sign-out-alt font-1"></span> تسجيل خروج</a></li>
                         </ul>
@@ -392,7 +475,7 @@
                     </div>
 
                     <div class="dropdown" style="width: 60px;height: 60px;background: #2381c6">
-                        <span class="d-inline-block fal fa-user"></span> 
+                        <span class="d-inline-block fal fa-user"></span>
                     </div>
 
                 </div>
@@ -423,7 +506,7 @@
         $("[name='title'],[name='slug'],[name='description_ar'],[name='description_en'],[name='meta_description']").append(function(){
             $(this).parent().find('.last_appended_counter').remove();
             $(this).parent().append('<div class="col-12 p-2 last_appended_counter"><span class="d-inline-block" style="font-size:13px">عدد الحروف <span style="font-weight:bolder;color:#007469;font-size:15px">'+$(this).val().length+'</span> حرفاً</span></div>');
-        }); 
+        });
         $(document).ready(function() {
               $('.select2-select').select2();
           });
@@ -441,6 +524,51 @@
         });
     </script>
     {{-- data picker end --}}
+    <script src="MultiSelect.js"></script>
+
+    <script>
+        const input = document.getElementById('dropdownInput');
+        const options = document.getElementById('dropdownOptions');
+        const allOptions = options.querySelectorAll('.option');
+        const hiddenInput = document.getElementById('selectedValue');
+        const output = document.getElementById('output');
+
+        input.addEventListener('focus', () => {
+            options.style.display = 'block';
+            filterOptions(input.value);
+        });
+
+        input.addEventListener('input', () => {
+            options.style.display = 'block';
+            filterOptions(input.value);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.searchable-dropdown')) {
+                options.style.display = 'none';
+            }
+        });
+
+        allOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                input.value = option.textContent;
+                hiddenInput.value = option.getAttribute('data-value');
+                options.style.display = 'none';
+            });
+        });
+
+        function filterOptions(searchText) {
+            const text = searchText.toLowerCase();
+            allOptions.forEach(option => {
+                const match = option.textContent.toLowerCase().includes(text);
+                option.style.display = match ? 'block' : 'none';
+            });
+        }
+
+        function submitValue() {
+            output.innerHTML = `<strong>You selected:</strong> ${hiddenInput.value || 'None'}`;
+        }
+    </script>
     @livewireScripts
     @include('layouts.scripts')
     @yield('scripts')

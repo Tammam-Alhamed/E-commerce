@@ -164,6 +164,30 @@
                                 <input type="text" name="items_price_d" value="{{$item->items_price_d}}" required maxlength="190" class="form-control" >
                             </div>
                         </div>
+                        <div class="col-12 col-lg-6 p-2">
+                            <div class="col-12">
+                                النقاط المكتسبه
+                            </div>
+                            <div class="col-12 pt-3">
+                                <input type="text" name="items_point" value="{{$item->items_point}}" required maxlength="190" class="form-control" >
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 p-2">
+                            <div class="col-12">
+                                الحد الاقصى لاستخدام النقاط
+                            </div>
+                            <div class="col-12 pt-3">
+                                <input type="text" name="items_maxPoint" value="{{$item->items_maxPoint}}" required maxlength="190" class="form-control" >
+                            </div>
+                        </div>
+
+                        <label for="tags">Tags</label>
+                        <select id="tags" name="name_tag" data-placeholder="Select Tag" multiple data-multi-select>
+                            @foreach ($tags as $tag)
+                            <option @if($item->tags->contains($tag->id)) selected @endif value="{{$tag->id}}">{{$tag->name}}</option>
+                            @endforeach
+                        </select>
 
                     <div class="col-12 p-2">
                         <div class="col-12">

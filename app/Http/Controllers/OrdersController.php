@@ -124,9 +124,9 @@ $request->body_ru" );
     $order = orders::find($orderid);
     $order->orders_status = $request->input('orders_status');
     $order->update();
-    $this->fm("users".$order->orders_usersid , "статус заказа" , "Статус номера вашего заказа ($order->orders_id) изменен на $status
+    $fcm = $this->fm("users".$order->orders_usersid , "статус заказа" , "Статус номера вашего заказа ($order->orders_id) изменен на $status
 $request->body_ru" );
-
+dd($fcm);
     
     $comment = new PushNotification();
     $comment->notification_title = "статус заказа";

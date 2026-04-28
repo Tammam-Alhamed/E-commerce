@@ -61,7 +61,10 @@ class items extends JsonResource
             'categories_datetime' => "$this->categories_datetime",
             'itemsprice' => "$this->itemsprice",
             'favorite' => "$this->favorite" ,
-        
+            'items_point' => "$this->items_point" ,
+            'items_maxPoint' => "$this->items_maxPoint" ,
+            'price_point' => "$this->price_point",
+            'my_point' => "$this->my_point",
             
         ];
     }

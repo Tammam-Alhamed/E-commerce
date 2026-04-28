@@ -26,4 +26,24 @@ class item extends Model
     {
         return $this->belongsToMany(user::class);
     }
+
+    public function tags()
+{
+    return $this->belongsToMany(tags::class , 'item_tags' , 'items_id' );
+}
+
+public function color()
+{
+    return $this->hasMany(color::class , 'colors_items');
+}
+
+public function size()
+{
+    return $this->hasMany(size::class , 'sizes_items');
+}
+
+    public function offers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(offers::class ,'item_offers' , 'offers_id' ,'offers_id' );
+    }
 }
